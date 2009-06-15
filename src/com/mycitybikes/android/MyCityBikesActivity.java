@@ -214,7 +214,6 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 			this.distanceInMeters = distanceInMeters;
 		}
 
-		@Override
 		public int compareTo(LocationAndDistance another) {
 			return (int) (this.distanceInMeters - another.distanceInMeters);
 		}
@@ -275,22 +274,18 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 		return false;
 	}
 
-	@Override
 	public void onLocationChanged(Location location) {
 		this.myLocation = location;
 		animateMapToMyLocation();
 		locationManager.removeUpdates(this);
 	}
 
-	@Override
 	public void onProviderDisabled(String provider) {
 	}
 
-	@Override
 	public void onProviderEnabled(String provider) {
 	}
 
-	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 }

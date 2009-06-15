@@ -7,12 +7,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.coffeebreaks.android.citybikes.ClearChannel;
-import org.coffeebreaks.android.citybikes.model.BikeStationStatus;
-import org.coffeebreaks.android.citybikes.model.StationLocation;
-
 import android.test.AndroidTestCase;
 import android.util.Log;
+
+import com.mycitybikes.android.model.BikeStationStatus;
+import com.mycitybikes.android.model.StationLocation;
 
 public class ClearChannelTest extends AndroidTestCase {
 
