@@ -1,0 +1,103 @@
+<stations>
+<station><id>01</id><description>Middelthunsgate (vis-a-vis nr. 21, retning Kirkeveien)</description><longitude>10.709009170532226</longitude><latitude>59.92786125852981</latitude></station>
+<station><id>02</id><description>Middelthunsgate 28 (utenfor Frognerbadet)</description><longitude>10.708515644073486</longitude><latitude>59.92805479800621</latitude></station>
+<station><id>03</id><description>Prinsensgt. (Kirkegt.)   </description><longitude>10.74413537979126</longitude><latitude>59.91124491211972</latitude></station>
+<station><id>04</id><description>Hallingsgate 2 (v. St.Haugen Fargehandel)</description><longitude>10.73866</longitude><latitude>59.92268</latitude></station>
+<station><id>05</id><description>Egertorget (Ø.Slottsgt.)  </description><longitude>10.74231</longitude><latitude>59.91247</latitude></station>
+<station><id>06</id><description>Stortingsgt.(Spikersuppa-Studenterlunden)   </description><longitude>10.735863447189331</longitude><latitude>59.91374058367605</latitude></station>
+<station><id>07</id><description>Vestbanen Nord (nærmest Rådhuset)   </description><longitude>10.72959</longitude><latitude>59.91095</latitude></station>
+<station><id>08</id><description>Vestbanen Sør (v/Aker Brygge)</description><longitude>10.72935</longitude><latitude>59.9109</latitude></station>
+<station><id>09</id><description>Kirkeristen Vest  (mot Glassmagasinet)</description><longitude>10.74682</longitude><latitude>59.91313</latitude></station>
+<station><id>100</id><description>Stortingsgt. (vis-a-vis Filmteatret)</description><longitude>10.736303329467773</longitude><latitude>59.91360074497331</latitude></station>
+<station><id>102</id><description>Arb.samfunnets plass (mot Torggt)</description><longitude>10.752439498901367</longitude><latitude>59.91579506901572</latitude></station>
+<station><id>10</id><description>Kirkeristen Øst (mot Storgt.)</description><longitude>10.74714</longitude><latitude>59.91313</latitude></station>
+<station><id>11</id><description>Ruseløkkvn.(krysset C.Adelersgt.-Vikatorget)</description><longitude>10.72506</longitude><latitude>59.91266</latitude></station>
+<station><id>12</id><description>Amaldus Nielsenspl.(Vestkanttorget-Neuberggt.)</description><longitude>10.71321</longitude><latitude>59.92439</latitude></station>
+<station><id>13</id><description>Majorstua  </description><longitude>10.71664810180664</longitude><latitude>59.929065485817034</latitude></station>
+<station><id>14</id><description>Olav V's gt (ved rundkjøringen)</description><longitude>10.73194</longitude><latitude>59.91277</latitude></station>
+<station><id>15</id><description>Bankplassen/Kirkegt,</description><longitude>10.74205</longitude><latitude>59.90899</latitude></station>
+<station><id>16</id><description>Knud Knudsens plass  (sør for St.Hanshaugen)</description><longitude>10.7399</longitude><latitude>59.92479</latitude></station>
+<station><id>17</id><description>Pilestredet 33  (litt nord for Blitz)</description><longitude>10.73613166809082</longitude><latitude>59.91914005839786</latitude></station>
+<station><id>18</id><description>Christiania Torv</description><longitude>10.73875</longitude><latitude>59.91022</latitude></station>
+<station><id>19</id><description>Oslo Plaza</description><longitude>10.75426</longitude><latitude>59.91242</latitude></station>
+<station><id>20</id><description>Brugata Nord (ved Cafeen)   </description><longitude>10.757524967193603</longitude><latitude>59.91369755644565</latitude></station>
+<station><id>21</id><description>Bislet Stadion (mot Rundkjøring i Pilestredet)</description><longitude>10.73158</longitude><latitude>59.92555</latitude></station>
+<station><id>22</id><description>Europarådets plass</description><longitude>10.74971</longitude><latitude>59.91206</latitude></station>
+<station><id>23</id><description>Brugata Sør (Vaterland nærmest Oslo Plaza)</description><longitude>10.757181644439697</longitude><latitude>59.91348241945701</latitude></station>
+<station><id>24</id><description>Arb.samfunnets plass (v/Sentrum Scene, Torggt) </description><longitude>10.75133</longitude><latitude>59.91542</latitude></station>
+<station><id>25</id><description>Storgt. 27 (enden av Youngsgt./skrått ovenf. Gunerius)</description><longitude>10.75177</longitude><latitude>59.91421</latitude></station>
+<station><id>26</id><description>C.J.Hambros plass (Tinghuset)  </description><longitude>10.74089527130127</longitude><latitude>59.915526164554784</latitude></station>
+<station><id>27</id><description>Rådhusgt.27 (vis-a-vis Akershus festning)</description><longitude>10.736689567565918</longitude><latitude>59.910954455396826</latitude></station>
+<station><id>28</id><description>Adamstuen (Krysset Theresesgt/Ullevålsvn.)</description><longitude>10.734415054321289</longitude><latitude>59.932613401369245</latitude></station>
+<station><id>29</id><description>Theresesgt.15-17/Stensgt.   </description><longitude>10.73291301727295</longitude><latitude>59.930344929414616</latitude></station>
+<station><id>30</id><description>Oslogt. (Gamlebyen under Jernbanebro)</description><longitude>10.767567157745361</longitude><latitude>59.907888368333964</latitude></station>
+<station><id>31</id><description>Torggt./Jacobs kirke (Ankertorget)</description><longitude>10.75487</longitude><latitude>59.91793</latitude></station>
+<station><id>32</id><description>Parkveien/Drammensveien (v.Am.ambassade)</description><longitude>10.72182</longitude><latitude>59.91502</latitude></station>
+<station><id>33</id><description>Bygdøy v/Folkemuseet</description><longitude>10.68768</longitude><latitude>59.90743</latitude></station>
+<station><id>34</id><description>Oslo City (Stenersgt. 2)</description><longitude>10.7511305809021</longitude><latitude>59.912944570885344</latitude></station>
+<station><id>35</id><description>Schous plass - 1</description><longitude>10.760679244995117</longitude><latitude>59.920366111550635</latitude></station>
+<station><id>36</id><description>Schous plass - 2</description><longitude>10.760443210601806</longitude><latitude>59.920247810150684</latitude></station>
+<station><id>37</id><description>Johan Sverdrups plass - Vogts gate (øvreTorshov)</description><longitude>10.76227</longitude><latitude>59.93154</latitude></station>
+<station><id>38</id><description>Ullevålsveien 9 v/Vår Frues hospital,ovenf Barnevognhuset</description><longitude>10.743963718414306</longitude><latitude>59.91953799289473</latitude></station>
+<station><id>39</id><description>Munkedamsvn.100, Skillebekk (Niels Juelsgt/Drm.veien)</description><longitude>10.7101</longitude><latitude>59.91271</latitude></station>
+<station><id>40</id><description>Carl Berners plass ("midt" i kr. nedenf.C.B.senter) </description><longitude>10.776472091674804</longitude><latitude>59.92625913839706</latitude></station>
+<station><id>41</id><description>Frognerstranda v/Kongen</description><longitude>10.708472728729248</longitude><latitude>59.91026595523588</latitude></station>
+<station><id>42</id><description>Tøyen T-bane -inng.Hagegt.</description><longitude>10.774712562561035</longitude><latitude>59.91497759269934</latitude></station>
+<station><id>43</id><description>Jens Bjelkesgt.(motsatt side nr.39)</description><longitude>10.76905</longitude><latitude>59.91599</latitude></station>
+<station><id>44</id><description>Sofienberggt.(krysset Toftesgt.) - Sofienbergparken </description><longitude>10.76143</longitude><latitude>59.92247</latitude></station>
+<station><id>45</id><description>Geitmyrsveien (krysset Collettsgt.) - Lovisenberg</description><longitude>10.7435</longitude><latitude>59.9298</latitude></station>
+<station><id>46</id><description>Trondheimsveien 64 (v.Sofienberg holdeplass og Kiwi)</description><longitude>10.77161</longitude><latitude>59.92319</latitude></station>
+<station><id>47</id><description>Valkyrieplass (mellom Narvesen-gatekjøkken)</description><longitude>10.71789</longitude><latitude>59.92835</latitude></station>
+<station><id>48</id><description>Frogner stadion v/tenninsbanene </description><longitude>10.709073543548584</longitude><latitude>59.926377418367274</latitude></station>
+<station><id>49</id><description>Frognerveien 35 A /Amtmann Furus plass</description><longitude>10.708837509155273</longitude><latitude>59.91952723797106</latitude></station>
+<station><id>50</id><description>Havnegata N (Østbanehallen)</description><longitude>10.752203464508056</longitude><latitude>59.909943215870214</latitude></station>
+<station><id>51</id><description>Havnegata S (Østbanehallen) v/Hotell Opera</description><longitude>10.752418041229248</longitude><latitude>59.909975489947975</latitude></station>
+<station><id>52</id><description>Helga Helgesens plass 2.(Gr.Landsleir./Åkebergv/Politi)</description><longitude>10.766408443450927</longitude><latitude>59.91224535471397</latitude></station>
+<station><id>53</id><description>Pilestredet 36-38 (v/Høyskolen/Frydenlund)</description><longitude>10.735058784484863</longitude><latitude>59.92037686620244</latitude></station>
+<station><id>54</id><description>Uranienborg skole (Briskeby)</description><longitude>10.7181715965271</longitude><latitude>59.920194036647636</latitude></station>
+<station><id>55</id><description>Bygdøy alle 45, vis a vis Gimle Kino</description><longitude>10.708215236663818</longitude><latitude>59.91726862678227</latitude></station>
+<station><id>56</id><description>Hausmanns bru</description><longitude>2.180019</longitude><latitude>41.397978</latitude></station>
+<station><id>57</id><description>Vippetangen/Akershusstranda</description><longitude>10.74163556098938</longitude><latitude>59.90441850726059</latitude></station>
+<station><id>58</id><description>Brageveien 1 ( Ligger langs Ullevålsveien)</description><longitude>10.735852718353271</longitude><latitude>59.93074272955227</latitude></station>
+<station><id>59</id><description>Dr. Maudsgt. 11-15</description><longitude>10.726926326751709</longitude><latitude>59.9134071211816</latitude></station>
+<station><id>60</id><description>Birkelunden</description><longitude>10.760700702667236</longitude><latitude>59.925667732220866</latitude></station>
+<station><id>61</id><description>Bygdøy alle 2</description><longitude>10.71527</longitude><latitude>59.91514</latitude></station>
+<station><id>62</id><description>Alexander Kiellands plass  </description><longitude>10.751308</longitude><latitude>59.928064</latitude></station>
+<station><id>63</id><description>Maridalsveien 31</description><longitude>10.75035810470581</longitude><latitude>59.9256139675003</latitude></station>
+<station><id>64</id><description>Skippergt./Storgt.</description><longitude>10.74991</longitude><latitude>59.91327</latitude></station>
+<station><id>65</id><description>Ullevålsveien/Collettsgate (St.Hanshaugen vest)</description><longitude>10.738577842712402</longitude><latitude>59.92703332691307</latitude></station>
+<station><id>66</id><description>Karenslyst alle (v/Bang&amp;Olufsen)</description><longitude>10.685062408447265</longitude><latitude>59.91995743219916</latitude></station>
+<station><id>67</id><description>Holtegt. 20 (krysset Uranienborgvn)</description><longitude>10.7209</longitude><latitude>59.92258</latitude></station>
+<station><id>68</id><description>Storgt. 40 (FJERNET utenfor Legevakten)</description><longitude>2.180019</longitude><latitude>41.397978</latitude></station>
+<station><id>69</id><description>Geitmyrsveien (krysset Gen.Birchsgt.)</description><longitude>10.741517543792724</longitude><latitude>59.932409137738524</latitude></station>
+<station><id>70</id><description>Colosseum / Fridtjof Nansensvei</description><longitude>10.71141242980957</longitude><latitude>59.92985036042926</latitude></station>
+<station><id>71</id><description>Slemdalsveien 1-3</description><longitude>10.71462</longitude><latitude>59.93076</latitude></station>
+<station><id>72</id><description>Bygdøy alle (v/Kristinelundsvei)</description><longitude>10.69759</longitude><latitude>59.91942</latitude></station>
+<station><id>73</id><description>Bygdøy alle (vis-a-vis Ingegjerdsvei)</description><longitude>10.692894458770752</longitude><latitude>59.919172323534795</latitude></station>
+<station><id>74</id><description>Prof.Aschehougs plass</description><longitude>10.74087</longitude><latitude>59.91478</latitude></station>
+<station><id>75</id><description>Uelandsgt. v/Arkitekt Rivertz' plass</description><longitude>10.74909</longitude><latitude>59.93491</latitude></station>
+<station><id>76</id><description>Skippergaten vis-a-vis nr. 3 (Cafe Grei, Dagens Næringsl)</description><longitude>10.74587345123291</longitude><latitude>59.90835098908149</latitude></station>
+<station><id>77</id><description>Pilestredet 46</description><longitude>10.733342170715332</longitude><latitude>59.92089308539075</latitude></station>
+<station><id>78</id><description>Dælenenggt. 41</description><longitude>10.76688</longitude><latitude>59.92895</latitude></station>
+<station><id>79</id><description>Fagerheimgt. 11</description><longitude>10.76774</longitude><latitude>59.92887</latitude></station>
+<station><id>80</id><description>Møllergt. 39</description><longitude>10.74914</longitude><latitude>59.91657</latitude></station>
+<station><id>81</id><description>Wdm. Thranesgt. 16 A</description><longitude>10.74061632156372</longitude><latitude>59.92367837953521</latitude></station>
+<station><id>82</id><description>Oslogate 37</description><longitude>10.76715</longitude><latitude>59.90346</latitude></station>
+<station><id>83</id><description>Parkveien 13</description><longitude>10.730595588684082</longitude><latitude>59.9219685162423</latitude></station>
+<station><id>84</id><description>Jens Bjelkesgt./Sverresgt. (Tøyen)</description><longitude>10.776278972625732</longitude><latitude>59.911492336212625</latitude></station>
+<station><id>85</id><description>Økernveien v/Caltexløkka</description><longitude>10.777223110198974</longitude><latitude>59.91568750749277</latitude></station>
+<station><id>86</id><description>Dyvekesvei/Konowsgt.</description><longitude>10.77808141708374</longitude><latitude>59.90340168857946</latitude></station>
+<station><id>87</id><description>Helgesensgt. vis-a-vis nr. 58</description><longitude>10.76712</longitude><latitude>59.92304</latitude></station>
+<station><id>88</id><description>Fredensborgveien v/62-64</description><longitude>10.750057697296142</longitude><latitude>59.920936103293954</latitude></station>
+<station><id>89</id><description>Olav V's gt. vis-a-vis Saga Kino</description><longitude>10.73271</longitude><latitude>59.91391</latitude></station>
+<station><id>90</id><description>Mariesgt. v/Majorstuveien</description><longitude>10.715832710266113</longitude><latitude>59.92668924535847</latitude></station>
+<station><id>91</id><description>Suhmsgt. v/Shell - Marienlyst</description><longitude>10.722591876983642</longitude><latitude>59.93205436107442</latitude></station>
+<station><id>92</id><description>Blindernveien 5</description><longitude>10.72693</longitude><latitude>59.93528</latitude></station>
+<station><id>93</id><description>Sognsveien v/Ullevålsalléen</description><longitude>10.730595588684082</longitude><latitude>59.93787006940913</latitude></station>
+<station><id>94</id><description>Drammensveien 33</description><longitude>10.71444</longitude><latitude>59.91383</latitude></station>
+<station><id>95</id><description>Akershusstranda/Vippetangen nr. 2</description><longitude>10.741109848022461</longitude><latitude>59.904176410398584</latitude></station>
+<station><id>96</id><description>Akershusstranda/Vippetangen nr. 1</description><longitude>10.740337371826171</longitude><latitude>59.90374601161927</latitude></station>
+<station><id>97</id><description>Dokkveien (v/Taxi Aker Brygge)</description><longitude>10.7281494140625</longitude><latitude>59.91080384720672</latitude></station>
+<station><id>98</id><description>Ruseløkkveien (Cort Adelersgt.)</description><longitude>10.725317001342773</longitude><latitude>59.912417470830285</latitude></station>
+<station><id>99</id><description>Rådhusgt.27/Kontraskjæret</description><longitude>10.736356973648071</longitude><latitude>59.91090604569595</latitude></station>
+</stations>
