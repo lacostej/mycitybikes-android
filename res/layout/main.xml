@@ -5,6 +5,7 @@
 	<com.mycitybikes.android.view.MapWithLocationsView
 		android:id="@+id/mapView" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:enabled="true"
-		android:clickable="true" android:apiKey="0WwwQvyTsMW2pnzDwD-shPoLlhADsYWQkPDjHLA" />
+		android:clickable="true" android:apiKey="0WwwQvyTsMW2hTmgBDj_to38LTxVp6YF2LHYHsg" /> <!-- RELEASE -->
+		<!--android:clickable="true" android:apiKey="0WwwQvyTsMW2pnzDwD-shPoLlhADsYWQkPDjHLA" /--> <!--  DEBUG -->
 
 </RelativeLayout>
