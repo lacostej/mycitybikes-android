@@ -76,7 +76,7 @@ public class ClearChannelTest extends AndroidTestCase {
 
 	public void testParseOfflineStatus() throws IOException {
 		BikeStationStatus status = ClearChannel.parseStatus(getStringInputStream(OFFLINE_STATION_STATUS));
-		assertEquals("67-Holtegt. 20 (krysset Uranienborgvn)", status.getDescription());
+		assertEquals("Holtegt. 20 (krysset Uranienborgvn)", status.getDescription());
 		assertEquals(false, status.isOnline());
 		assertEquals(0, status.getEmptyLocks());
 		assertEquals(0, status.getReadyBikes());
@@ -86,7 +86,7 @@ public class ClearChannelTest extends AndroidTestCase {
 
 	public void testParseOnlineStatus() throws IOException {
 		BikeStationStatus status = ClearChannel.parseStatus(getStringInputStream(ONLINE_STATION_STATUS));
-		assertEquals("10-Kirkeristen Øst (mot Storgt.)", status.getDescription());
+		assertEquals("Kirkeristen Øst (mot Storgt.)", status.getDescription());
 		assertEquals(true, status.isOnline());
 		assertEquals(7, status.getEmptyLocks());
 		assertEquals(5, status.getReadyBikes());
