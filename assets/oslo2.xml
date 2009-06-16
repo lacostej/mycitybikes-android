@@ -56,7 +56,7 @@
 <station><id>53</id><description>Pilestredet 36-38 (v/Høyskolen/Frydenlund)</description><longitude>10.735058784484863</longitude><latitude>59.92037686620244</latitude></station>
 <station><id>54</id><description>Uranienborg skole (Briskeby)</description><longitude>10.7181715965271</longitude><latitude>59.920194036647636</latitude></station>
 <station><id>55</id><description>Bygdøy alle 45, vis a vis Gimle Kino</description><longitude>10.708215236663818</longitude><latitude>59.91726862678227</latitude></station>
-<station><id>56</id><description>Hausmanns bru</description><longitude>2.180019</longitude><latitude>41.397978</latitude></station>
+<!--station><id>56</id><description>Hausmanns bru</description><longitude>2.180019</longitude><latitude>41.397978</latitude></station-->
 <station><id>57</id><description>Vippetangen/Akershusstranda</description><longitude>10.74163556098938</longitude><latitude>59.90441850726059</latitude></station>
 <station><id>58</id><description>Brageveien 1 ( Ligger langs Ullevålsveien)</description><longitude>10.735852718353271</longitude><latitude>59.93074272955227</latitude></station>
 <station><id>59</id><description>Dr. Maudsgt. 11-15</description><longitude>10.726926326751709</longitude><latitude>59.9134071211816</latitude></station>
@@ -68,7 +68,7 @@
 <station><id>65</id><description>Ullevålsveien/Collettsgate (St.Hanshaugen vest)</description><longitude>10.738577842712402</longitude><latitude>59.92703332691307</latitude></station>
 <station><id>66</id><description>Karenslyst alle (v/Bang&amp;Olufsen)</description><longitude>10.685062408447265</longitude><latitude>59.91995743219916</latitude></station>
 <station><id>67</id><description>Holtegt. 20 (krysset Uranienborgvn)</description><longitude>10.7209</longitude><latitude>59.92258</latitude></station>
-<station><id>68</id><description>Storgt. 40 (FJERNET utenfor Legevakten)</description><longitude>2.180019</longitude><latitude>41.397978</latitude></station>
+<station><id>68</id><description>Storgt. 40 (FJERNET utenfor Legevakten)</description><longitude>10.75892</longitude><latitude>59.917468</latitude></station>
 <station><id>69</id><description>Geitmyrsveien (krysset Gen.Birchsgt.)</description><longitude>10.741517543792724</longitude><latitude>59.932409137738524</latitude></station>
 <station><id>70</id><description>Colosseum / Fridtjof Nansensvei</description><longitude>10.71141242980957</longitude><latitude>59.92985036042926</latitude></station>
 <station><id>71</id><description>Slemdalsveien 1-3</description><longitude>10.71462</longitude><latitude>59.93076</latitude></station>
