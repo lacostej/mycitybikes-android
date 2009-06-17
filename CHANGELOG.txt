@@ -1,0 +1,5 @@
+1.0.1 20080617 Bug fix
+
+* fixed some location inacurracies in Oslo rack locations
+
+1.0.0 20080615 Initial release
