@@ -1,0 +1,4 @@
+Note to eclipse users:
+
+* to be able to run the Android JUnit tests, you need to import both eclipse modules (the 'root' one and the one under tests/). You will end up with 2 modules under eclipse: myCityBikes-android and myCityBikesTests. Otherwise eclipse won't be able to run the android tests under the tests/ directory from the myCityBikes-android module (the root module isn't configured with the proper test runner).
+
