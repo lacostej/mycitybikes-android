@@ -1,3 +1,7 @@
+1.0.2 New features
+
+* introduced support for Stockholm bike locations (no live data unfortunately). Data from robert hedblad <robert.hedblad@skarpnacksfriaskola.com>
+
 1.0.1 20080617 Bug fix
 
 * fixed some location inacurracies in Oslo rack locations

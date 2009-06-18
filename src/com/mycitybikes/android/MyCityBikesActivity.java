@@ -89,6 +89,7 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 		}
 
 		ClearChannel.loadOsloBikeLocations(getApplicationContext(), stationLocations);
+		ClearChannel.loadStockholmBikeLocations(getApplicationContext(), stationLocations);
 	}
 
 	private void animateMapToMyLocation() {

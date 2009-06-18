@@ -40,7 +40,7 @@ public class ClearChannel {
 		try {
 			AssetManager assets = context.getAssets();
 			InputStream is = assets.open("oslo2.xml");
-			loadStationLocationsAsset(is, stationLocations);
+			loadStationLocationsAsset(is, stationLocations, "Oslo", "Norway");
 
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to load Oslo bike station locations: " + e.getMessage());
@@ -48,13 +48,25 @@ public class ClearChannel {
 		}
 	}
 
-	static void loadStationLocationsAsset(InputStream is, List<StationLocation> stationLocations) throws IOException {
-    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-    DocumentBuilder db;
-    Document dom;
+	public static void loadStockholmBikeLocations(Context context, List<StationLocation> stationLocations) {
+		try {
+			AssetManager assets = context.getAssets();
+			InputStream is = assets.open("stockholm.xml");
+			loadStationLocationsAsset(is, stationLocations, "Stockholm", "Sweeden");
+
+		} catch (Exception e) {
+			Log.e(Constants.TAG, "Failed to load Oslo bike station locations: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	static void loadStationLocationsAsset(InputStream is, List<StationLocation> stationLocations, String city, String country) throws IOException {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db;
+        Document dom;
 		try {
 			db = dbf.newDocumentBuilder();
-	    dom = db.parse(is);
+	        dom = db.parse(is);
 		} catch (Exception e) {
 			throw new IllegalStateException("Unexpected parsing issue.", e);
 		}
@@ -95,7 +107,7 @@ public class ClearChannel {
 	    	}
       }
 
-    	final StationLocation stationLocation = new StationLocation(id, description, longitude, latitude);
+    	final StationLocation stationLocation = new StationLocation(id, city, country, description, longitude, latitude);
 			stationLocations.add(stationLocation);
 			Log.v(Constants.TAG, "loaded stationLocation: " + stationLocation);
     }
@@ -194,7 +206,17 @@ public class ClearChannel {
 		return bikeStationStatus;
 	}
 	
-	public static String getStationInfo(int stationIndex) {
+	public static String getStationInfo(StationLocation stationLocation) {
+	    if (stationLocation.getCity().equals("Oslo")) {
+	    	return getOsloStationInfo(stationLocation.getId());
+	    } else if (stationLocation.getCity().equals("Stockholm")) {
+	    	return stationLocation.getDescription() + "\n\n(no live data for Stockholm)";
+	    } else {
+	    	throw new IllegalStateException("" + stationLocation);
+	    }
+	}
+
+	public static String getOsloStationInfo(int stationIndex) {
 		String result;
 		try {
 			BikeStationStatus status = readBikeStationStatus(stationIndex);

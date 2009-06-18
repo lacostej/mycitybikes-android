@@ -2,26 +2,33 @@ package com.mycitybikes.android.model;
 
 public class StationLocation {
 
-	private double longitude;
-	private double latitude;
-	private String city = "Oslo";
-	private String country = "Norway";
-	private String description;
-	private int id;
+	private final double longitude;
+	private final double latitude;
+	private final String city;
+	private final String country;
+	private final String description;
+	private final int id;
 
-	public StationLocation(double longitude, double latitude, int id) {
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.id = id;
+	public StationLocation(String city, String country, double longitude, double latitude, int id) {
+		this(id, city, country, null, longitude, latitude);
 	}
 	
-	public StationLocation(int id, String description, double longitude, double latitude) {
+	public StationLocation(int id, String city, String country, String description, double longitude, double latitude) {
+		this.id = id;
+		this.city = city;
+		this.country = country;
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.description = description;
-		this.id = id;
 	}
 	
+	public String getCity() {
+		return city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
 
 	public double getLongitude() {
 		return longitude;

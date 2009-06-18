@@ -58,7 +58,7 @@ public class ClearChannelTest extends AndroidTestCase {
 	public void testLoadOsloBikeLocations() throws IOException {
 		List<StationLocation> bikeLocations = new ArrayList<StationLocation>();
 		InputStream is = getStringInputStream(OSLO_XML);
-		ClearChannel.loadStationLocationsAsset(is, bikeLocations);
+		ClearChannel.loadStationLocationsAsset(is, bikeLocations, "Oslo", "Norway");
 		
 		assertEquals(3, bikeLocations.size());
 		assertEquals(1, bikeLocations.get(0).getId());

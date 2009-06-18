@@ -82,7 +82,12 @@ public class MapLocationItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 		if (overlayIndex == CURRENT_POSITION_OVERLAY_INDEX) {
 			text = "Your current position.\n" + getFirstReversedGeocodedAddress(currentPosition);
 		} else {
-			text = prefixMessage + ClearChannel.getStationInfo(stationLocations.get(overlayIndex - 1).getId());
+			StationLocation stationLocation = stationLocations.get(overlayIndex - 1);
+			if (stationLocation.getCity().equals("Oslo") || stationLocation.getCity().equals("Stockholm")) {
+				text = prefixMessage + ClearChannel.getStationInfo(stationLocation);
+			} else {
+				throw new IllegalStateException("Unsupported location " + stationLocation);
+			}
 		}
 		Log.v(Constants.TAG, "onTapText:" + text);
 		highlightSelectedOverlayItem(overlayIndex, overlayItem);
