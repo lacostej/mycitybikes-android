@@ -26,19 +26,20 @@ public class MapLocationItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	private List<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Drawable meMarker;
 	private Drawable highlightMarker;
-	
+
 	private GeoPoint currentPosition;
 	private List<StationLocation> stationLocations;
 	private int selectedOverlayIndex;
-	
+
 	private Toast lastText;
 
-	public MapLocationItemizedOverlay(MapView mapView, Drawable meMarker, Drawable stationMarker, Drawable highlightMarker, GeoPoint currentPosition,
-			List<StationLocation> bikeLocations) {
+	public MapLocationItemizedOverlay(MapView mapView, Drawable meMarker,
+			Drawable stationMarker, Drawable highlightMarker,
+			GeoPoint currentPosition, List<StationLocation> bikeLocations) {
 		super(boundCenterBottom(stationMarker));
 		this.mapView = mapView;
 		this.meMarker = meMarker;
-		//this.stationMarker = boundCenterBottom(stationMarker);
+		// this.stationMarker = boundCenterBottom(stationMarker);
 		this.highlightMarker = boundCenterBottom(highlightMarker);
 		this.currentPosition = currentPosition;
 		this.stationLocations = bikeLocations;
@@ -54,12 +55,13 @@ public class MapLocationItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 			item.setMarker(boundCenterBottom(meMarker));
 		} else {
 			final StationLocation l = this.stationLocations.get(i - 1);
-			item = new OverlayItem(AndroidUtils.buildGeoPoint(l.getLatitude(), l.getLongitude()), "", "");
+			item = new OverlayItem(AndroidUtils.buildGeoPoint(l.getLatitude(),
+					l.getLongitude()), "", "");
 		}
 		mOverlays.add(item);
 		return item;
 	}
-	
+
 	@Override
 	public int size() {
 		return 1 + stationLocations.size();
@@ -75,33 +77,41 @@ public class MapLocationItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	public void actUponTapLocation(int overlayIndex, String prefixMessage) {
 		// not sure if this is working well.
 		final OverlayItem overlayItem = mOverlays.get(overlayIndex);
-		Log.d(Constants.TAG, "tapping index " + overlayIndex + " " + overlayItem);
+		Log.d(Constants.TAG, "tapping index " + overlayIndex + " "
+				+ overlayItem);
 		mapView.getController().animateTo(overlayItem.getPoint());
 
 		String text;
 		if (overlayIndex == CURRENT_POSITION_OVERLAY_INDEX) {
-			text = "Your current position.\n" + getFirstReversedGeocodedAddress(currentPosition);
+			text = "Your current position.\n"
+					+ getFirstReversedGeocodedAddress(currentPosition);
 		} else {
-			StationLocation stationLocation = stationLocations.get(overlayIndex - 1);
-			if (stationLocation.getCity().equals("Oslo") || stationLocation.getCity().equals("Stockholm")) {
-				text = prefixMessage + ClearChannel.getStationInfo(stationLocation);
+			StationLocation stationLocation = stationLocations
+					.get(overlayIndex - 1);
+			if (stationLocation.getCity().equals("Oslo")
+					|| stationLocation.getCity().equals("Stockholm")) {
+				text = prefixMessage
+						+ ClearChannel.getStationInfo(stationLocation);
 			} else {
-				throw new IllegalStateException("Unsupported location " + stationLocation);
+				throw new IllegalStateException("Unsupported location "
+						+ stationLocation);
 			}
 		}
 		Log.v(Constants.TAG, "onTapText:" + text);
 		highlightSelectedOverlayItem(overlayIndex, overlayItem);
 
 		if (lastText == null) {
-			lastText = Toast.makeText(mapView.getContext(), text, Toast.LENGTH_LONG);
+			lastText = Toast.makeText(mapView.getContext(), text,
+					Toast.LENGTH_LONG);
 		} else {
 			lastText.setText(text);
 		}
 		lastText.show();
-		
-  }
 
-	private void highlightSelectedOverlayItem(final int overlayIndex, final OverlayItem overlayItem) {
+	}
+
+	private void highlightSelectedOverlayItem(final int overlayIndex,
+			final OverlayItem overlayItem) {
 		if (selectedOverlayIndex != CURRENT_POSITION_OVERLAY_INDEX) {
 			mOverlays.get(selectedOverlayIndex).setMarker(null);
 		}
@@ -114,24 +124,28 @@ public class MapLocationItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 
 	private String getFirstReversedGeocodedAddress(GeoPoint position) {
 
-		Geocoder geoCoder = new Geocoder(mapView.getContext(), Locale.getDefault());
+		Geocoder geoCoder = new Geocoder(mapView.getContext(), Locale
+				.getDefault());
 
 		String address = "";
 		try {
-			List<Address> addresses = geoCoder.getFromLocation(position.getLatitudeE6() / 1E6, position.getLongitudeE6() / 1E6, 1);
+			List<Address> addresses = geoCoder.getFromLocation(position
+					.getLatitudeE6() / 1E6, position.getLongitudeE6() / 1E6, 1);
 
 			if (addresses.size() > 0) {
 				for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++)
 					address += addresses.get(0).getAddressLine(i) + "\n";
 			}
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Unable to reverse geocode address for position " + position + ". " + e.getMessage(), e);
+			Log.e(Constants.TAG,
+					"Unable to reverse geocode address for position "
+							+ position + ". " + e.getMessage(), e);
 		}
 
 		return address;
 	}
 
-	//FIXME we shouldn't have to expose this
+	// FIXME we shouldn't have to expose this
 	public int findOverlayIndex(int stationIndex) {
 		for (int i = 0; i < stationLocations.size(); i++) {
 			StationLocation stationLocation = stationLocations.get(i);
@@ -139,7 +153,8 @@ public class MapLocationItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 				return i + 1;
 			}
 		}
-		throw new IllegalArgumentException("station with index " + stationIndex + " doesn't exists as overlay item");
+		throw new IllegalArgumentException("station with index " + stationIndex
+				+ " doesn't exists as overlay item");
 	}
 
 }
