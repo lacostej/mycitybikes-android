@@ -1,0 +1,23 @@
+Android ap
+
+UI
+* get a nice logo
+* replace Toast with proper Dialog
+
+FEATURES
+* support find specific location
+* support new cities
+** finish Paris support (speed up)
+*** implement other French cities
+** implement Barcelona
+*** implement other smart bikes cities
+* find a way to support extra data from all apis
+
+CLEANUP
+* use MyLocationOverlay for my location
+* refactor code
+* define common API
+* get rid of
+
+
+
