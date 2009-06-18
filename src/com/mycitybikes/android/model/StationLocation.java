@@ -9,11 +9,13 @@ public class StationLocation {
 	private final String description;
 	private final int id;
 
-	public StationLocation(String city, String country, double longitude, double latitude, int id) {
+	public StationLocation(String city, String country, double longitude,
+			double latitude, int id) {
 		this(id, city, country, null, longitude, latitude);
 	}
-	
-	public StationLocation(int id, String city, String country, String description, double longitude, double latitude) {
+
+	public StationLocation(int id, String city, String country,
+			String description, double longitude, double latitude) {
 		this.id = id;
 		this.city = city;
 		this.country = country;
@@ -21,7 +23,7 @@ public class StationLocation {
 		this.latitude = latitude;
 		this.description = description;
 	}
-	
+
 	public String getCity() {
 		return city;
 	}
@@ -34,11 +36,9 @@ public class StationLocation {
 		return longitude;
 	}
 
-
 	public double getLatitude() {
 		return latitude;
 	}
-
 
 	public String getDescription() {
 		return description;
@@ -50,7 +50,7 @@ public class StationLocation {
 
 	@Override
 	public String toString() {
-		return new String("[" + longitude + "," + latitude + "] " + description + " [" + country + "," + city + "-" + id + "]");
+		return new String("[" + longitude + "," + latitude + "] " + description
+				+ " [" + country + "," + city + "-" + id + "]");
 	}
 }
-

@@ -33,7 +33,8 @@ import com.mycitybikes.android.view.MapWithLocationsView;
  * * selection of network provider (GPS vs ) ?
  */
 
-public class MyCityBikesActivity extends MapActivity implements LocationListener {
+public class MyCityBikesActivity extends MapActivity implements
+		LocationListener {
 
 	private MapWithLocationsView mapView;
 	private Location myLocation;
@@ -54,10 +55,12 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 
 		mapView = (MapWithLocationsView) findViewById(R.id.mapView);
 		mapView.setBuiltInZoomControls(true);
-		
+
 		meMarker = mapView.getResources().getDrawable(R.drawable.marker_orange);
-		stationsMarker = mapView.getResources().getDrawable(R.drawable.marker_blue);
-		highlightMarker = mapView.getResources().getDrawable(R.drawable.marker_green);
+		stationsMarker = mapView.getResources().getDrawable(
+				R.drawable.marker_blue);
+		highlightMarker = mapView.getResources().getDrawable(
+				R.drawable.marker_green);
 
 		// refresh current location
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -69,37 +72,49 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 
 		String providerName = LocationManager.GPS_PROVIDER;
 		try {
-			locationManager.setTestProviderStatus(providerName, LocationProvider.AVAILABLE, null, System.currentTimeMillis());
+			locationManager.setTestProviderStatus(providerName,
+					LocationProvider.AVAILABLE, null, System
+							.currentTimeMillis());
 			locationManager.setTestProviderEnabled(providerName, true);
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Failed to enable TestProvider " + e.getMessage(), e);
+			Log.e(Constants.TAG, "Failed to enable TestProvider "
+					+ e.getMessage(), e);
 		}
 		try {
 			Log.v(Constants.TAG, "requestLocationUpdates() ");
-			locationManager.requestLocationUpdates(providerName, 60000, 20, this);
+			locationManager.requestLocationUpdates(providerName, 60000, 20,
+					this);
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Failed to requestLocationUpdates() from " + providerName + ": " + e.getMessage(), e);
+			Log.e(Constants.TAG, "Failed to requestLocationUpdates() from "
+					+ providerName + ": " + e.getMessage(), e);
 		}
 		providerName = LocationManager.NETWORK_PROVIDER;
 		try {
 			Log.v(Constants.TAG, "requestLocationUpdates() ");
-			locationManager.requestLocationUpdates(providerName, 60000, 20, this);
+			locationManager.requestLocationUpdates(providerName, 60000, 20,
+					this);
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Failed to requestLocationUpdates() from " + providerName + ": " + e.getMessage(), e);
+			Log.e(Constants.TAG, "Failed to requestLocationUpdates() from "
+					+ providerName + ": " + e.getMessage(), e);
 		}
 
-		ClearChannel.loadOsloBikeLocations(getApplicationContext(), stationLocations);
-		ClearChannel.loadStockholmBikeLocations(getApplicationContext(), stationLocations);
+		ClearChannel.loadOsloBikeLocations(getApplicationContext(),
+				stationLocations);
+		ClearChannel.loadStockholmBikeLocations(getApplicationContext(),
+				stationLocations);
 	}
 
 	private void animateMapToMyLocation() {
 		GeoPoint point = animateToLocation(myLocation);
 
-		mc.setZoom(15); // FIXME consider auto-adapting zoom level based on distance
-										// to closest bike station. Or using user prefs
+		mc.setZoom(15); // FIXME consider auto-adapting zoom level based on
+						// distance
+		// to closest bike station. Or using user prefs
 
 		// ---Add a location marker---
-		MapLocationItemizedOverlay mapOverlay = new MapLocationItemizedOverlay(mapView, meMarker, stationsMarker, highlightMarker, point, stationLocations);
+		MapLocationItemizedOverlay mapOverlay = new MapLocationItemizedOverlay(
+				mapView, meMarker, stationsMarker, highlightMarker, point,
+				stationLocations);
 
 		List<Overlay> listOfOverlays = mapView.getOverlays();
 		listOfOverlays.clear();
@@ -110,7 +125,8 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 
 	private GeoPoint animateToLocation(Location location) {
 		Log.v(Constants.TAG, "animate to " + location);
-		GeoPoint point = AndroidUtils.buildGeoPoint(location.getLatitude(), location.getLongitude());
+		GeoPoint point = AndroidUtils.buildGeoPoint(location.getLatitude(),
+				location.getLongitude());
 		mc.animateTo(point);
 		return point;
 	}
@@ -120,7 +136,7 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 	private static final int MENU_CLOSEST_STATION_WITH_BIKE = 3;
 	private static final int MENU_CLOSEST_STATION_WITH_SLOT = 4;
 
-  private static final int MAP_MODE_MENU_GROUP = 1;
+	private static final int MAP_MODE_MENU_GROUP = 1;
 
 	private static final int MENU_MAP_MODE_MAP = 1;
 	private static final int MENU_MAP_MODE_SATELLITE = 2;
@@ -134,18 +150,25 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 		item = menu.add(Menu.NONE, MENU_MY_LOCATION, Menu.NONE, "My Location");
 		item.setIcon(meMarker);
 		SubMenu subMenu = menu.addSubMenu("Map Mode");
-		item = subMenu.add(MAP_MODE_MENU_GROUP, MENU_MAP_MODE_MAP, Menu.NONE, "Map");
-		item.setChecked(!mapView.isSatellite()&&!mapView.isTraffic()&&!mapView.isStreetView());
-		item = subMenu.add(MAP_MODE_MENU_GROUP, MENU_MAP_MODE_SATELLITE, Menu.NONE, "Satellite");
+		item = subMenu.add(MAP_MODE_MENU_GROUP, MENU_MAP_MODE_MAP, Menu.NONE,
+				"Map");
+		item.setChecked(!mapView.isSatellite() && !mapView.isTraffic()
+				&& !mapView.isStreetView());
+		item = subMenu.add(MAP_MODE_MENU_GROUP, MENU_MAP_MODE_SATELLITE,
+				Menu.NONE, "Satellite");
 		item.setChecked(mapView.isSatellite());
-		item = subMenu.add(MAP_MODE_MENU_GROUP, MENU_MAP_MODE_TRAFFIC, Menu.NONE, "Traffic");
+		item = subMenu.add(MAP_MODE_MENU_GROUP, MENU_MAP_MODE_TRAFFIC,
+				Menu.NONE, "Traffic");
 		item.setChecked(mapView.isTraffic());
-		item = subMenu.add(MAP_MODE_MENU_GROUP, MENU_MAP_MODE_STREET, Menu.NONE, "Street View");
+		item = subMenu.add(MAP_MODE_MENU_GROUP, MENU_MAP_MODE_STREET,
+				Menu.NONE, "Street View");
 		item.setChecked(mapView.isStreetView());
 		subMenu.setGroupCheckable(MAP_MODE_MENU_GROUP, true, true);
 
-		menu.add(Menu.NONE, MENU_CLOSEST_STATION_WITH_BIKE, Menu.NONE, "Closest Bike");
-		menu.add(Menu.NONE, MENU_CLOSEST_STATION_WITH_SLOT, Menu.NONE, "Closest Slot");
+		menu.add(Menu.NONE, MENU_CLOSEST_STATION_WITH_BIKE, Menu.NONE,
+				"Closest Bike");
+		menu.add(Menu.NONE, MENU_CLOSEST_STATION_WITH_SLOT, Menu.NONE,
+				"Closest Slot");
 
 		// menu.add(Menu.NONE, MENU_SATELLITE_SWITCH, Menu.NONE, "Settings");
 		// menu.add(Menu.NONE, MENU_SATELLITE_SWITCH, Menu.NONE, "Quit");
@@ -163,7 +186,8 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 			switch (item.getItemId()) {
 			case MENU_MY_LOCATION:
 				if (myLocation == null) {
-					// FIXME myLocation not yet populated. We should consider ask the user to retry re-populating
+					// FIXME myLocation not yet populated. We should consider
+					// ask the user to retry re-populating
 					return true;
 				}
 				animateToLocation(myLocation);
@@ -186,7 +210,7 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 				return true;
 			case MENU_MAP_MODE_SATELLITE:
 				mapView.setSatellite(true);
-				//mapView.setTraffic(false);
+				// mapView.setTraffic(false);
 				return true;
 			case MENU_MAP_MODE_TRAFFIC:
 				mapView.setSatellite(false);
@@ -201,15 +225,17 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 		return false;
 	}
 
-	private static class LocationAndDistance implements Comparable<LocationAndDistance> {
+	private static class LocationAndDistance implements
+			Comparable<LocationAndDistance> {
 		private StationLocation stationLocation;
 		// private Location location;
 		private float distanceInMeters;
 
 		public LocationAndDistance(StationLocation stationLocation/*
-																														 * , Location
-																														 * location
-																														 */, float distanceInMeters) {
+																 * , Location
+																 * location
+																 */,
+				float distanceInMeters) {
 			this.stationLocation = stationLocation;
 			// this.location = location;
 			this.distanceInMeters = distanceInMeters;
@@ -226,12 +252,13 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 	}
 
 	public void findClosestStation(FindStationCriteria criteria) {
-		// FIXME do we want to provide closest station from currently centered point
+		// FIXME do we want to provide closest station from currently centered
+		// point
 		// ?
 		/*
 		 * GeoPoint point = mapView.getMapCenter(); Location center = new
-		 * Location(Constants.TAG); center.setLatitude(point.getLatitudeE6() / 1E6);
-		 * center.setLongitude(point.getLongitudeE6() / 1E6);
+		 * Location(Constants.TAG); center.setLatitude(point.getLatitudeE6() /
+		 * 1E6); center.setLongitude(point.getLongitudeE6() / 1E6);
 		 */
 		Location center = this.myLocation;
 
@@ -240,7 +267,8 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 			Location loc = new Location(Constants.TAG);
 			loc.setLatitude(l.getLatitude());
 			loc.setLongitude(l.getLongitude());
-			sortedStationLocations.add(new LocationAndDistance(l/* , loc */, center.distanceTo(loc)));
+			sortedStationLocations.add(new LocationAndDistance(l/* , loc */,
+					center.distanceTo(loc)));
 		}
 		Collections.sort(sortedStationLocations);
 
@@ -248,25 +276,33 @@ public class MyCityBikesActivity extends MapActivity implements LocationListener
 		StationLocation foundStation = null;
 		for (LocationAndDistance lad : sortedStationLocations) {
 			try {
-				BikeStationStatus status = ClearChannel.readBikeStationStatus(lad.getStationIndex());
-				if ((criteria == FindStationCriteria.ReadyBike && status.getReadyBikes() > 0)
-						|| (criteria == FindStationCriteria.FreeSlot && status.getEmptyLocks() > 0)) {
-					Log.v(Constants.TAG, "Found station:" + status.getDescription());
+				BikeStationStatus status = ClearChannel
+						.readBikeStationStatus(lad.getStationIndex());
+				if ((criteria == FindStationCriteria.ReadyBike && status
+						.getReadyBikes() > 0)
+						|| (criteria == FindStationCriteria.FreeSlot && status
+								.getEmptyLocks() > 0)) {
+					Log.v(Constants.TAG, "Found station:"
+							+ status.getDescription());
 					foundStation = lad.stationLocation;
 					break;
 				}
 			} catch (Exception e) {
-				// FIXME find a way to display the fact that some nearer stations don't
+				// FIXME find a way to display the fact that some nearer
+				// stations don't
 				// have status information available
 				continue;
 			}
 		}
 
 		if (foundStation != null) {
-			MapLocationItemizedOverlay overlay = ((MapLocationItemizedOverlay) mapView.getOverlays().get(0));
-			String prefix = criteria == FindStationCriteria.ReadyBike ? "station with closest bike:\n" : "station with closest free slot:\n";
+			MapLocationItemizedOverlay overlay = ((MapLocationItemizedOverlay) mapView
+					.getOverlays().get(0));
+			String prefix = criteria == FindStationCriteria.ReadyBike ? "station with closest bike:\n"
+					: "station with closest free slot:\n";
 
-			overlay.actUponTapLocation(overlay.findOverlayIndex(foundStation.getId()), prefix);
+			overlay.actUponTapLocation(overlay.findOverlayIndex(foundStation
+					.getId()), prefix);
 		}
 	}
 

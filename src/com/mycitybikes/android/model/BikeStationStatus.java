@@ -7,7 +7,7 @@ public class BikeStationStatus {
 	private boolean online;
 	private int readyBikes;
 	private int emptyLocks;
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -67,5 +67,5 @@ public class BikeStationStatus {
 		builder.append(", latitude=").append(latitude);
 		return builder.toString();
 	}
-  
+
 }
