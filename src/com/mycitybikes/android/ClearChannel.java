@@ -40,7 +40,7 @@ public class ClearChannel {
 		try {
 			AssetManager assets = context.getAssets();
 			InputStream is = assets.open("oslo2.xml");
-			loadOsloStationLocations(is, stationLocations);
+			loadStationLocationsAsset(is, stationLocations);
 
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to load Oslo bike station locations: " + e.getMessage());
@@ -48,7 +48,7 @@ public class ClearChannel {
 		}
 	}
 
-	static void loadOsloStationLocations(InputStream is, List<StationLocation> stationLocations) throws IOException {
+	static void loadStationLocationsAsset(InputStream is, List<StationLocation> stationLocations) throws IOException {
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
     DocumentBuilder db;
     Document dom;
