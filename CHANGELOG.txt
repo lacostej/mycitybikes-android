@@ -1,6 +1,7 @@
 1.0.2 New features
 
-* introduced support for Stockholm bike locations (no live data unfortunately). Data from robert hedblad <robert.hedblad@skarpnacksfriaskola.com>
+* introduced support for Stockholm,Sweeden bike locations (no live data unfortunately). Data from robert hedblad <robert.hedblad@skarpnacksfriaskola.com>
+* introduced support for Paris,France bike locations
 
 1.0.1 20080617 Bug fix
 
