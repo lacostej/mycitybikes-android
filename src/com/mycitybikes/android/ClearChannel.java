@@ -59,7 +59,7 @@ public class ClearChannel {
 					"Sweeden");
 
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Failed to load Oslo bike station locations: "
+			Log.e(Constants.TAG, "Failed to load Stokholm bike station locations: "
 					+ e.getMessage());
 			e.printStackTrace();
 		}
@@ -78,7 +78,7 @@ public class ClearChannel {
 			throw new IllegalStateException("Unexpected parsing issue.", e);
 		}
 
-		Node stationsNode = dom.getFirstChild();
+		Node stationsNode = dom.getDocumentElement();
 		if (!"stations".equals(stationsNode.getNodeName())) {
 			throw new IllegalArgumentException("Unexpected XML:"
 					+ stationsNode.getNodeName());
@@ -127,14 +127,7 @@ public class ClearChannel {
 
 	public static BikeStationStatus readBikeStationStatus(String httpUrl) {
 		try {
-			HttpParams params = new BasicHttpParams();
-			HttpConnectionParams.setConnectionTimeout(params, 5000);
-			HttpClient httpclient = new DefaultHttpClient(params);
-
-			HttpGet httpGet = new HttpGet(httpUrl);
-			HttpResponse response = httpclient.execute(httpGet);
-			return parseStatus(response.getEntity().getContent());
-			// listener.newWikiItems(wi);
+			return parseStatus(Utils.readContent(httpUrl, 5000));
 		} catch (Exception e) {
 			throw new RuntimeException(
 					"Unable to read/parse status information", e);
