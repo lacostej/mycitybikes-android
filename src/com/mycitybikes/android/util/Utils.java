@@ -6,8 +6,10 @@ import java.io.InputStreamReader;
 
 public class Utils {
 
-	public static String parseISToString(java.io.InputStream is) throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+	public static String parseISToString(java.io.InputStream is)
+			throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is,
+				"UTF-8"));
 		StringBuilder sb = new StringBuilder();
 		try {
 			String line = null;
