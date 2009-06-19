@@ -13,11 +13,26 @@ FEATURES
 *** implement other smart bikes cities
 * find a way to support extra data from all apis
 
+* display news from mycitybikes server (e.g. when supported cities change but app version is the same).
+** add notifications to Android tray
+* display release notes from app
+
+* display statuses (nb supported cities, stations, etc...)
+
 CLEANUP
 * use MyLocationOverlay for my location
 * refactor code
 * define common API
 * get rid of
 
+NEW MENU
 
+Go to
+  City
+  Direction
+  Earth View (zoom out)
+
+More
+  Settings
+  About
 
