@@ -1,20 +1,20 @@
 package com.mycitybikes.android;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
+import org.w3c.dom.CDATASection;
+import org.w3c.dom.CharacterData;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -262,6 +262,145 @@ public class ClearChannel {
 		content = content.replaceAll("&lt;", "<");
 		content = content.replaceAll("&gt;", ">");
 		return content;
+	}
+
+	public static void loadBarcelonaBikeLocations(Context context,
+			List<StationLocation> stationLocations) {
+		try {
+			loadBikeLocationsAndStatusFromKmlInPage(context, stationLocations, "http://www.bicing.com/localizaciones/localizaciones.php", "Barcelona", "Spain");
+
+		} catch (Exception e) {
+			Log.e(Constants.TAG, "Failed to load Barcelona bike station locations: "
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public static void loadBikeLocationsAndStatusFromKmlInPage(Context context,
+			List<StationLocation> stationLocations, String httpUrl, String city, String country) {
+		try {
+			InputStream is = Utils.readContent(httpUrl, 5000);
+			String kml = extractKMLFromHtml(is);
+			Log.v(Constants.TAG, "Extracted KML: " + kml);
+			InputStream is2 = new ByteArrayInputStream(kml.getBytes("UTF-8"));
+			parseKml(is2, stationLocations, city, country);
+		} catch (Exception e) {
+			Log.e(Constants.TAG, "Failed to load " + city + "," + country + " bike station locations: "
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	static void parseKml(InputStream is,
+			List<StationLocation> stationLocations, String city, String country) {
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db;
+		Document dom;
+		try {
+			db = dbf.newDocumentBuilder();
+			dom = db.parse(is);
+		} catch (Exception e) {
+			throw new IllegalStateException("Unexpected parsing issue.", e);
+		}
+
+		Node kmlNode = dom.getDocumentElement();
+		if (!"kml".equals(kmlNode.getNodeName())) {
+			throw new IllegalArgumentException("Unexpected XML:"
+					+ kmlNode.getNodeName());
+		}
+		
+		// FIXME refactor model as to attach status to station
+		BikeStationStatus bikeStationStatus = new BikeStationStatus();
+		
+		Integer id = null;
+		String description = null;
+		Double latitude = null;
+		Double longitude = null;
+		NodeList placemarks = dom.getElementsByTagName("Placemark");
+		for (int i = 0; i < placemarks.getLength(); i++) {
+			Node placemarkNode = placemarks.item(i);
+			/*
+			if (!"Placemark".equals(placemarkNode.getNodeName())) {
+				throw new IllegalArgumentException("Unexpected XML:"
+						+ placemarkNode.getNodeName());
+			}
+			*/
+			NodeList stationChildren = placemarkNode.getChildNodes();
+			for (int j = 0; j < stationChildren.getLength(); j++) {
+				Node child = stationChildren.item(j);
+				if (child.getNodeType() != Element.ELEMENT_NODE) {
+					continue;
+				}
+				if ("description".equals(child.getNodeName())) {
+					CharacterData d = ((CharacterData)child.getFirstChild());
+					CDATASection section = (CDATASection) child.getFirstChild();
+					String data = section.getData();
+					Pattern p = Pattern.compile("<div[^>]*><div[^>]*>(.*) - (.*)</div><div[^>]*>.*</div><div[^>]*>([0-9]+).*>([0-9]+).*</div></div>");
+					Matcher m = p.matcher(data);
+					if (m.matches() && m.groupCount() == 4) {
+						id = new Integer(m.group(1));
+						description = m.group(2);
+						bikeStationStatus.setReadyBikes(new Integer(m.group(3)));
+						bikeStationStatus.setEmptyLocks(new Integer(m.group(4)));
+					} else {
+						Log.e(Constants.TAG, "couldn't extract address from data:" + data);
+					}
+				} else if ("Point".equals(child.getNodeName())) {
+					String coordinates = child.getFirstChild().getFirstChild().getNodeValue();
+					String cood[] = coordinates.split(",");
+					longitude = new Double(sanitizeCoordinates(cood[0]));
+					latitude = new Double(sanitizeCoordinates(cood[1]));
+					Double altitude = new Double(cood[2]);
+				}/* else if ("latitude".equals(child.getNodeName())) {
+					latitude = new Double(child.getFirstChild().getNodeValue());
+				} else if ("id".equals(child.getNodeName())) {
+					id = new Integer(child.getFirstChild().getNodeValue());
+				} else {
+					throw new IllegalArgumentException(
+							"Unexpected format of the XML station status "
+									+ child.getNodeName());
+				}
+				*/
+			}
+
+			if (description == null || longitude == null || latitude == null) {
+				Log.e(Constants.TAG, "couldn't find station location information. Skipping...");
+				break;
+			}
+			final StationLocation stationLocation = new StationLocation(id,
+					city, country, description, longitude, latitude);
+			stationLocations.add(stationLocation);
+			Log.v(Constants.TAG, "loaded stationLocation: " + stationLocation);
+		}
+	}
+	
+	private static String sanitizeCoordinates(String coordinates) {
+		return coordinates.replace("?", "");
+	}
+
+	static String extractKMLFromHtml(InputStream is) {
+		BufferedReader r = new BufferedReader(new InputStreamReader(is));
+		String line = null;
+		try {
+			while ((line = r.readLine()) != null) {
+				int start = -1;
+				if ((start = line.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml")) >= 0) {
+					int end = line.indexOf("</kml>");
+					if (end == -1 || end < start) {
+						throw new IllegalStateException("Unexpected HTML format. </kml> not found on same line as <kml>");
+					}
+					if (end < start) {
+						throw new IllegalStateException("Unexpected HTML format. </kml> before <kml>");
+					}
+					return line.substring(start, end + "</kml>".length());
+				}
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("Unable to extract KML", e);
+		}
+		Log.v(Constants.TAG, "kml: " + line);
+		return line;
 	}
 
 }

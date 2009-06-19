@@ -51,10 +51,12 @@ public class JCDecaux {
 		markers = dom.getElementsByTagName("marker");
 		for (int j = 0; j < markers.getLength(); j++) {
 			Node markerNode = markers.item(j);
+			/*
 			if (!"marker".equals(markerNode.getNodeName())) {
 				throw new IllegalArgumentException("Unexpected XML:"
 						+ markerNode.getNodeName());
 			}
+			*/
 
 			Integer id = null;
 			String description = null;

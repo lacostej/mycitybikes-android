@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.test.AndroidTestCase;
 import android.util.Log;
@@ -102,4 +104,55 @@ public class ClearChannelTest extends AndroidTestCase {
 		Log.i(Constants.TAG, "Fetch status for station #" + id + ": "
 				+ status.toString());
 	}
+	
+	public void testExtractKMLFromHtml() throws Exception {
+		// AssetManager assets = getContext().getAssets();
+		// InputStream is = assets.open("localizaciones.php");
+		InputStream is = getResource("tests/localizaciones.php"); //
+		
+		String kml = ClearChannel.extractKMLFromHtml(is);
+		
+		assertTrue(kml.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml"));
+		assertTrue(kml.endsWith("</kml>"));
+	}
+
+	public void testParseKML() throws Exception {
+		// AssetManager assets = getContext().getAssets();
+		// InputStream is = assets.open("localizaciones.php");
+		InputStream is = getResource("tests/kml.xml"); //
+		
+		List<StationLocation> stationLocations = new ArrayList<StationLocation>();
+		ClearChannel.parseKml(is, stationLocations, "Barcelona", "Spain");
+		
+		assertTrue(stationLocations.size() > 0);
+	}
+	
+	public void testX() {
+		String s = "<div style=\"margin:10px\"><div style=\"font:bold 11px verdana;color:#cf152c;margin-bottom:10px\">EXPO. TORRE DEL AGUA</i></div><div style=\"text-align:right;float:left;font:bold 11px verdana\">Bicicletas<br />Aparcamientos</div><div style=\"margin-left:5px;float:left;font:bold 11px verdana;color:green\">16<br />8<br /></div></div>";
+		Pattern p = Pattern.compile("<div[^>]*><div[^>]*>(.*)</i></div><div[^>]*>.*</div><div[^>]*>([0-9]+).*([0-9]+).*</div></div>");
+		Matcher m = p.matcher(s);
+		if (m.matches()) {
+			for (int i = 0; i < m.groupCount(); i++) {
+				String n = m.group(i);
+			}
+		}
+	}
+
+	private InputStream getResource(String resourceName) throws IOException {
+		InputStream resourceAsStream = getContext().getAssets().open(resourceName);
+		if (resourceAsStream == null) {
+			ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+			if (contextClassLoader != null) {
+			    resourceAsStream = contextClassLoader.getResourceAsStream(resourceName);
+			}
+		}
+		if (resourceAsStream == null) {
+			resourceAsStream = getClass().getResourceAsStream(resourceName);
+		}
+		if (resourceAsStream == null) {
+			throw new IllegalStateException("Couldn't find resource: " + resourceName);
+		}
+		return resourceAsStream;
+	}
 }
+	
