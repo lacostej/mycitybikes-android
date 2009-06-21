@@ -1,5 +1,9 @@
 Android ap
 
+BUGS
+* parsing coordinates in Barcelona
+* I18N when parsing Barcelona
+
 UI
 * get a nice logo
 * replace Toast with proper Dialog
