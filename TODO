@@ -7,8 +7,10 @@ UI
 * get a nice logo
 * replace Toast with proper Dialog
 * special icons for empty and full stations
+* multiple languages
 
 FEATURES
+* handle lack of access Internet properly
 * support find specific location
 * support new cities
 ** finish Paris support (speed up)
