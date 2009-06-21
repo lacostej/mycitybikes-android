@@ -412,7 +412,7 @@ public class ClearChannel {
 			double longitude = new Double(m.group(1).replace(",", "."));
 			double latitude = new Double(m.group(2).replace(",", "."));
 			double altitude = new Double(m.group(3));
-			return new GeoPosition(longitude, latitude, altitude);
+			return new GeoPosition(latitude, longitude, altitude);
 		}
 		return null;
 	}

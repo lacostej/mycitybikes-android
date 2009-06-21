@@ -127,16 +127,16 @@ public class ClearChannelTest extends AndroidTestCase {
 	public void testParseKmlCoordinatesWithDots() {
         GeoPosition parsed = ClearChannel.parseKmlCoordinates("2.183453,41.389044,13");
         
-        assertEquals(2.183453, parsed.getLatitude());
-        assertEquals(41.389044, parsed.getLongitude());
+        assertEquals(2.183453, parsed.getLongitude());
+        assertEquals(41.389044, parsed.getLatitude());
         assertEquals(13.0, parsed.getAltitude());
 	}
 
 	public void testParseKmlCoordinatesWithCommas() {
         GeoPosition parsed = ClearChannel.parseKmlCoordinates("2,180233,41,390956,13");
         
-        assertEquals(2.180233, parsed.getLatitude());
-        assertEquals(41.390956, parsed.getLongitude());
+        assertEquals(2.180233, parsed.getLongitude());
+        assertEquals(41.390956, parsed.getLatitude());
         assertEquals(13.0, parsed.getAltitude());
 	}
 
