@@ -6,13 +6,12 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import android.test.AndroidTestCase;
 import android.util.Log;
 
 import com.mycitybikes.android.model.BikeStationStatus;
+import com.mycitybikes.android.model.GeoPosition;
 import com.mycitybikes.android.model.StationLocation;
 
 public class ClearChannelTest extends AndroidTestCase {
@@ -116,26 +115,39 @@ public class ClearChannelTest extends AndroidTestCase {
 		assertTrue(kml.endsWith("</kml>"));
 	}
 
-	public void testParseKML() throws Exception {
-		// AssetManager assets = getContext().getAssets();
-		// InputStream is = assets.open("localizaciones.php");
-		InputStream is = getResource("tests/kml.xml"); //
+	public void testParseKMLCatalan() throws Exception {
+		InputStream is = getResource("tests/kml_bcln_catalan.xml"); //
 		
 		List<StationLocation> stationLocations = new ArrayList<StationLocation>();
 		ClearChannel.parseKml(is, stationLocations, "Barcelona", "Spain");
 		
-		assertTrue(stationLocations.size() > 0);
+		assertEquals(412, stationLocations.size());
 	}
 	
-	public void testX() {
-		String s = "<div style=\"margin:10px\"><div style=\"font:bold 11px verdana;color:#cf152c;margin-bottom:10px\">EXPO. TORRE DEL AGUA</i></div><div style=\"text-align:right;float:left;font:bold 11px verdana\">Bicicletas<br />Aparcamientos</div><div style=\"margin-left:5px;float:left;font:bold 11px verdana;color:green\">16<br />8<br /></div></div>";
-		Pattern p = Pattern.compile("<div[^>]*><div[^>]*>(.*)</i></div><div[^>]*>.*</div><div[^>]*>([0-9]+).*([0-9]+).*</div></div>");
-		Matcher m = p.matcher(s);
-		if (m.matches()) {
-			for (int i = 0; i < m.groupCount(); i++) {
-				String n = m.group(i);
-			}
-		}
+	public void testParseKmlCoordinatesWithDots() {
+        GeoPosition parsed = ClearChannel.parseKmlCoordinates("2.183453,41.389044,13");
+        
+        assertEquals(2.183453, parsed.getLatitude());
+        assertEquals(41.389044, parsed.getLongitude());
+        assertEquals(13.0, parsed.getAltitude());
+	}
+
+	public void testParseKmlCoordinatesWithCommas() {
+        GeoPosition parsed = ClearChannel.parseKmlCoordinates("2,180233,41,390956,13");
+        
+        assertEquals(2.180233, parsed.getLatitude());
+        assertEquals(41.390956, parsed.getLongitude());
+        assertEquals(13.0, parsed.getAltitude());
+	}
+
+	public void testParseKmlDescription() {
+		String s = "<div style=\"margin:10px\"><div style=\"font:bold 11px verdana;color:#cf152c;margin-bottom:10px\">1 - EXPO. TORRE DEL AGUA</div><div style=\"text-align:right;float:left;font:bold 11px verdana\">Bicicletas<br />Aparcamientos</div><div style=\"margin-left:5px;float:left;font:bold 11px verdana;color:green\">16<br />8<br /></div></div>";
+		String[] parsed = ClearChannel.parseKmlDescription(s);
+		
+		assertEquals("1", parsed[0]);
+		assertEquals("EXPO. TORRE DEL AGUA", parsed[1]);
+		assertEquals("16", parsed[2]);
+		assertEquals("8", parsed[3]);
 	}
 
 	private InputStream getResource(String resourceName) throws IOException {

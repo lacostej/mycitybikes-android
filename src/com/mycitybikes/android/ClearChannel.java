@@ -25,6 +25,7 @@ import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.mycitybikes.android.model.BikeStationStatus;
+import com.mycitybikes.android.model.GeoPosition;
 import com.mycitybikes.android.model.StationInfoBuilder;
 import com.mycitybikes.android.model.StationLocation;
 import com.mycitybikes.android.util.Utils;
@@ -348,24 +349,26 @@ public class ClearChannel {
 					CharacterData d = ((CharacterData) child.getFirstChild());
 					CDATASection section = (CDATASection) child.getFirstChild();
 					String data = section.getData();
-					Pattern p = Pattern.compile("<div[^>]*><div[^>]*>(.*) - (.*)</div><div[^>]*>.*</div><div[^>]*>([0-9]+).*>([0-9]+).*</div></div>");
-					Matcher m = p.matcher(data);
-					if (m.matches() && m.groupCount() == 4) {
-						id = new Integer(m.group(1));
-						description = m.group(2);
+					String[] parsedData = parseKmlDescription(data);
+					if (parsedData == null) {
+						Log.e(Constants.TAG, "couldn't extract address from data:" + data);
+					} else { 
+						id = new Integer(parsedData[0]);
+						description = parsedData[1];
 						// FIXME remove duplication between the 2 classes
 						bikeStationStatus.setDescription(description);
-						bikeStationStatus.setReadyBikes(new Integer(m.group(3)));
-						bikeStationStatus.setEmptyLocks(new Integer(m.group(4)));
-					} else {
-						Log.e(Constants.TAG, "couldn't extract address from data:" + data);
+						bikeStationStatus.setReadyBikes(new Integer(parsedData[2]));
+						bikeStationStatus.setEmptyLocks(new Integer(parsedData[3]));
 					}
 				} else if ("Point".equals(child.getNodeName())) {
 					String coordinates = child.getFirstChild().getFirstChild().getNodeValue();
-					String cood[] = coordinates.split(",");
-					longitude = new Double(sanitizeCoordinates(cood[0]));
-					latitude = new Double(sanitizeCoordinates(cood[1]));
-					Double altitude = new Double(cood[2]);
+					GeoPosition geoPosition = parseKmlCoordinates(coordinates);
+					if (geoPosition == null) {
+						Log.e(Constants.TAG, "couldn't extract coordinates from:" + coordinates);
+					} else {
+						longitude = geoPosition.getLongitude();
+						latitude = geoPosition.getLatitude();
+					}
 				}
 			}
 
@@ -388,8 +391,30 @@ public class ClearChannel {
 		}
 	}
 
-	private static String sanitizeCoordinates(String coordinates) {
-		return coordinates.replace("?", "");
+	/**
+	 * Return an array with [id,description,readyBikes,emptyLocks], or null if couldn't be parsed
+	 * @param descriptionData
+	 * @return
+	 */
+	static String[] parseKmlDescription(String descriptionData) {
+		Pattern p = Pattern.compile("<div[^>]*><div[^>]*>(.*) - (.*)</div><div[^>]*>.*</div><div[^>]*>([0-9]+).*>([0-9]+).*</div></div>");
+		Matcher m = p.matcher(descriptionData);
+		if (m.matches() && m.groupCount() == 4) {
+			return new String[] {m.group(1), m.group(2), m.group(3), m.group(4) };
+		}
+		return null;
+	}
+
+	static GeoPosition parseKmlCoordinates(String coordinates) {
+		Pattern p = Pattern.compile("([0-9]+[\\.,][0-9]+)\\??,([0-9]+[\\.,][0-9]+),(.*)");
+		Matcher m = p.matcher(coordinates);
+		if (m.matches() && m.groupCount() == 3) {
+			double longitude = new Double(m.group(1).replace(",", "."));
+			double latitude = new Double(m.group(2).replace(",", "."));
+			double altitude = new Double(m.group(3));
+			return new GeoPosition(longitude, latitude, altitude);
+		}
+		return null;
 	}
 
 	static String extractKMLFromHtml(InputStream is) {
