@@ -3,6 +3,7 @@ Android ap
 UI
 * get a nice logo
 * replace Toast with proper Dialog
+* special icons for empty and full stations
 
 FEATURES
 * support find specific location
@@ -18,6 +19,10 @@ FEATURES
 * display release notes from app
 
 * display statuses (nb supported cities, stations, etc...)
+
+* find a way to display a different icon for empty / full stations. Can we do this without reading all rack statuses ? This would cause many queries if done live...
+  Or can we find a way to differentiate stations with recently updated statuses ? Maybe only fetch the close ones. Can we do this without visualy overloading the image ?
+
 
 CLEANUP
 * use MyLocationOverlay for my location
