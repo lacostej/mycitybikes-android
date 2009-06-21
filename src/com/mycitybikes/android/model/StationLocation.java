@@ -8,6 +8,7 @@ public class StationLocation {
 	private final String country;
 	private final String description;
 	private final int id;
+	private StationInfoBuilder stationInfoBuilder;
 
 	public StationLocation(String city, String country, double longitude,
 			double latitude, int id) {
@@ -22,6 +23,10 @@ public class StationLocation {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.description = description;
+	}
+
+	public void setStationInfoBuilder(StationInfoBuilder stationInfoBuilder) {
+		this.stationInfoBuilder = stationInfoBuilder;
 	}
 
 	public String getCity() {
@@ -42,6 +47,10 @@ public class StationLocation {
 
 	public String getDescription() {
 		return description;
+	}
+
+	public String getStationInfo() {
+		return stationInfoBuilder.buildStationInfo();
 	}
 
 	public int getId() {

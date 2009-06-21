@@ -14,9 +14,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
-import com.mycitybikes.android.ClearChannel;
 import com.mycitybikes.android.Constants;
-import com.mycitybikes.android.JCDecaux;
 import com.mycitybikes.android.model.StationLocation;
 import com.mycitybikes.android.util.AndroidUtils;
 
@@ -89,17 +87,7 @@ public class MapLocationItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 		} else {
 			StationLocation stationLocation = stationLocations
 					.get(overlayIndex - 1);
-			if (stationLocation.getCity().equals("Oslo")
-					|| stationLocation.getCity().equals("Stockholm")) {
-				text = prefixMessage
-						+ ClearChannel.getStationInfo(stationLocation);
-			} else if (stationLocation.getCity().equals("Paris")) {
-					text = prefixMessage
-							+ JCDecaux.getStationInfo(stationLocation);
-			} else {
-				throw new IllegalStateException("Unsupported location "
-						+ stationLocation);
-			}
+			text = prefixMessage + stationLocation.getStationInfo();
 		}
 		Log.v(Constants.TAG, "onTapText:" + text);
 		highlightSelectedOverlayItem(overlayIndex, overlayItem);

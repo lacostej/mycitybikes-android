@@ -16,6 +16,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.mycitybikes.android.model.BikeStationStatus;
+import com.mycitybikes.android.model.StationInfoBuilder;
 import com.mycitybikes.android.model.StationLocation;
 import com.mycitybikes.android.util.Utils;
 
@@ -52,11 +53,10 @@ public class JCDecaux {
 		for (int j = 0; j < markers.getLength(); j++) {
 			Node markerNode = markers.item(j);
 			/*
-			if (!"marker".equals(markerNode.getNodeName())) {
-				throw new IllegalArgumentException("Unexpected XML:"
-						+ markerNode.getNodeName());
-			}
-			*/
+			 * if (!"marker".equals(markerNode.getNodeName())) { throw new
+			 * IllegalArgumentException("Unexpected XML:" +
+			 * markerNode.getNodeName()); }
+			 */
 
 			Integer id = null;
 			String description = null;
@@ -90,8 +90,17 @@ public class JCDecaux {
 
 			// markerAttributes.getNamedItem("bonus");
 
-			StationLocation stationLocation = new StationLocation(id, city,
-					country, description, longitude, latitude);
+			final StationLocation stationLocation = new StationLocation(id,
+					city, country, description, longitude, latitude);
+
+			stationLocation.setStationInfoBuilder(new StationInfoBuilder() {
+
+				@Override
+				public String buildStationInfo() {
+					return JCDecaux.getStationInfo(stationLocation);
+				}
+
+			});
 			stationLocations.add(stationLocation);
 			Log.v(Constants.TAG, "loaded stationLocation: " + stationLocation);
 		}

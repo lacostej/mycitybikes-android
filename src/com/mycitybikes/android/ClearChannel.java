@@ -25,6 +25,7 @@ import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.mycitybikes.android.model.BikeStationStatus;
+import com.mycitybikes.android.model.StationInfoBuilder;
 import com.mycitybikes.android.model.StationLocation;
 import com.mycitybikes.android.util.Utils;
 
@@ -60,7 +61,7 @@ public class ClearChannel {
 
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to load Stokholm bike station locations: "
-					+ e.getMessage());
+							+ e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -120,6 +121,14 @@ public class ClearChannel {
 
 			final StationLocation stationLocation = new StationLocation(id,
 					city, country, description, longitude, latitude);
+			stationLocation.setStationInfoBuilder(new StationInfoBuilder() {
+
+				@Override
+				public String buildStationInfo() {
+					return ClearChannel.getStationInfo(stationLocation);
+				}
+
+			});
 			stationLocations.add(stationLocation);
 			Log.v(Constants.TAG, "loaded stationLocation: " + stationLocation);
 		}
@@ -238,16 +247,20 @@ public class ClearChannel {
 		String result;
 		try {
 			BikeStationStatus status = readBikeStationStatus(stationIndex);
-			if (!status.isOnline()) {
-				result = status.getDescription()
-						+ "\n\n(no station information)";
-			} else {
-				result = status.getDescription() + "\n\n"
-						+ status.getReadyBikes() + " bike(s)\n"
-						+ status.getEmptyLocks() + " slot(s)";
-			}
+			result = formatStationInfo(status);
 		} catch (Exception e) {
 			result = "Error: station information not available";
+		}
+		return result;
+	}
+
+	private static String formatStationInfo(BikeStationStatus status) {
+		String result;
+		if (!status.isOnline()) {
+			result = status.getDescription() + "\n\n(no station information)";
+		} else {
+			result = status.getDescription() + "\n\n" + status.getReadyBikes()
+					+ " bike(s)\n" + status.getEmptyLocks() + " slot(s)";
 		}
 		return result;
 	}
@@ -267,11 +280,13 @@ public class ClearChannel {
 	public static void loadBarcelonaBikeLocations(Context context,
 			List<StationLocation> stationLocations) {
 		try {
-			loadBikeLocationsAndStatusFromKmlInPage(context, stationLocations, "http://www.bicing.com/localizaciones/localizaciones.php", "Barcelona", "Spain");
+			loadBikeLocationsAndStatusFromKmlInPage(context, stationLocations,
+					"http://www.bicing.com/localizaciones/localizaciones.php",
+					"Barcelona", "Spain");
 
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to load Barcelona bike station locations: "
-					+ e.getMessage());
+							+ e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -285,15 +300,15 @@ public class ClearChannel {
 			InputStream is2 = new ByteArrayInputStream(kml.getBytes("UTF-8"));
 			parseKml(is2, stationLocations, city, country);
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Failed to load " + city + "," + country + " bike station locations: "
-					+ e.getMessage());
+			Log.e(Constants.TAG, "Failed to load " + city + "," + country
+					+ " bike station locations: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
-	
+
 	static void parseKml(InputStream is,
 			List<StationLocation> stationLocations, String city, String country) {
-		
+
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db;
 		Document dom;
@@ -309,10 +324,9 @@ public class ClearChannel {
 			throw new IllegalArgumentException("Unexpected XML:"
 					+ kmlNode.getNodeName());
 		}
-		
-		// FIXME refactor model as to attach status to station
-		BikeStationStatus bikeStationStatus = new BikeStationStatus();
-		
+
+		final BikeStationStatus bikeStationStatus = new BikeStationStatus();
+
 		Integer id = null;
 		String description = null;
 		Double latitude = null;
@@ -320,12 +334,7 @@ public class ClearChannel {
 		NodeList placemarks = dom.getElementsByTagName("Placemark");
 		for (int i = 0; i < placemarks.getLength(); i++) {
 			Node placemarkNode = placemarks.item(i);
-			/*
-			if (!"Placemark".equals(placemarkNode.getNodeName())) {
-				throw new IllegalArgumentException("Unexpected XML:"
-						+ placemarkNode.getNodeName());
-			}
-			*/
+
 			NodeList stationChildren = placemarkNode.getChildNodes();
 			for (int j = 0; j < stationChildren.getLength(); j++) {
 				Node child = stationChildren.item(j);
@@ -333,7 +342,7 @@ public class ClearChannel {
 					continue;
 				}
 				if ("description".equals(child.getNodeName())) {
-					CharacterData d = ((CharacterData)child.getFirstChild());
+					CharacterData d = ((CharacterData) child.getFirstChild());
 					CDATASection section = (CDATASection) child.getFirstChild();
 					String data = section.getData();
 					Pattern p = Pattern.compile("<div[^>]*><div[^>]*>(.*) - (.*)</div><div[^>]*>.*</div><div[^>]*>([0-9]+).*>([0-9]+).*</div></div>");
@@ -352,16 +361,7 @@ public class ClearChannel {
 					longitude = new Double(sanitizeCoordinates(cood[0]));
 					latitude = new Double(sanitizeCoordinates(cood[1]));
 					Double altitude = new Double(cood[2]);
-				}/* else if ("latitude".equals(child.getNodeName())) {
-					latitude = new Double(child.getFirstChild().getNodeValue());
-				} else if ("id".equals(child.getNodeName())) {
-					id = new Integer(child.getFirstChild().getNodeValue());
-				} else {
-					throw new IllegalArgumentException(
-							"Unexpected format of the XML station status "
-									+ child.getNodeName());
 				}
-				*/
 			}
 
 			if (description == null || longitude == null || latitude == null) {
@@ -370,11 +370,19 @@ public class ClearChannel {
 			}
 			final StationLocation stationLocation = new StationLocation(id,
 					city, country, description, longitude, latitude);
+
+			stationLocation.setStationInfoBuilder(new StationInfoBuilder() {
+
+				@Override
+				public String buildStationInfo() {
+					return formatStationInfo(bikeStationStatus);
+				}
+			});
 			stationLocations.add(stationLocation);
 			Log.v(Constants.TAG, "loaded stationLocation: " + stationLocation);
 		}
 	}
-	
+
 	private static String sanitizeCoordinates(String coordinates) {
 		return coordinates.replace("?", "");
 	}
