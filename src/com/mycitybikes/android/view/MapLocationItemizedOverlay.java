@@ -84,12 +84,14 @@ public class MapLocationItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 		if (overlayIndex == CURRENT_POSITION_OVERLAY_INDEX) {
 			text = "Your current position.\n"
 					+ getFirstReversedGeocodedAddress(currentPosition);
+			Log.v(Constants.TAG, "onTapText:" + text);
 		} else {
 			StationLocation stationLocation = stationLocations
 					.get(overlayIndex - 1);
 			text = prefixMessage + stationLocation.getStationInfo();
+			Log.v(Constants.TAG, "tapped station: " + stationLocation + "onTapText: "
+					+ text);
 		}
-		Log.v(Constants.TAG, "onTapText:" + text);
 		highlightSelectedOverlayItem(overlayIndex, overlayItem);
 
 		if (lastText == null) {

@@ -325,8 +325,6 @@ public class ClearChannel {
 					+ kmlNode.getNodeName());
 		}
 
-		final BikeStationStatus bikeStationStatus = new BikeStationStatus();
-
 		Integer id = null;
 		String description = null;
 		Double latitude = null;
@@ -334,6 +332,11 @@ public class ClearChannel {
 		NodeList placemarks = dom.getElementsByTagName("Placemark");
 		for (int i = 0; i < placemarks.getLength(); i++) {
 			Node placemarkNode = placemarks.item(i);
+
+			final BikeStationStatus bikeStationStatus = new BikeStationStatus();
+
+			// FIXME find out how offline is supported for Barcelona and the like
+			bikeStationStatus.setOnline(true);
 
 			NodeList stationChildren = placemarkNode.getChildNodes();
 			for (int j = 0; j < stationChildren.getLength(); j++) {
@@ -350,6 +353,8 @@ public class ClearChannel {
 					if (m.matches() && m.groupCount() == 4) {
 						id = new Integer(m.group(1));
 						description = m.group(2);
+						// FIXME remove duplication between the 2 classes
+						bikeStationStatus.setDescription(description);
 						bikeStationStatus.setReadyBikes(new Integer(m.group(3)));
 						bikeStationStatus.setEmptyLocks(new Integer(m.group(4)));
 					} else {
