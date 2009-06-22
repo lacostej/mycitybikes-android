@@ -13,3 +13,12 @@ Developers:
 
 Note to eclipse users: the project consists of _2_ eclipse modules. The 'root' one and the one under tests/ (myCityBikes-android and myCityBikesTests). The last one is specialy configured to run the Android unit tests. To be able to run the Android JUnit tests from eclipse, you need to import _both_ eclipse modules and run the unit tests from the myCityBikesTests module. The root module isn't configured with the proper test runner and Eclipse can't run the android tests under the tests/ directory from the root module.
 
+
+Known quirks:
+*************
+
+* BARCELONA
+** spanish localizaciones contains spurious </i>
+** pages advertise UTF-8 but seem to be ISO-8859-1 (maybe google map trick?)
+** some coordinates have an invalid format (, instead of .)
+

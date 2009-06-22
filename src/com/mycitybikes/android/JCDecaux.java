@@ -173,16 +173,19 @@ public class JCDecaux {
 	// FIXME refactor this code with ClearChannel
 	public static String getStationInfo(StationLocation stationLocation) {
 		if (stationLocation.getCity().equals("Paris")) {
-			return getParisStationInfo(stationLocation.getId());
+			return getParisStationInfo(stationLocation);
 		} else {
 			throw new IllegalStateException("" + stationLocation);
 		}
 	}
 
-	public static String getParisStationInfo(int stationIndex) {
+	public static String getParisStationInfo(StationLocation stationLocation) {
+		int stationIndex = stationLocation.getId();
 		String result;
 		try {
 			BikeStationStatus status = readBikeStationStatus(stationIndex);
+			// FIXME solve duplication
+			status.setDescription(stationLocation.getDescription());
 			if (!status.isOnline()) {
 				result = status.getDescription()
 						+ "\n\n(no station information)";
