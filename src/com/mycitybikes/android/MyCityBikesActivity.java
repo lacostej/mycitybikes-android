@@ -108,14 +108,19 @@ public class MyCityBikesActivity extends MapActivity implements
 		
 		ClearChannel.loadStockholmBikeLocations(getApplicationContext(),
 				stationLocations);
+
+		// Disabled until we find a way to speed up things. 1000+ overlay items don't cut it...
 		ClearChannel.loadBarcelonaBikeLocations(getApplicationContext(), stationLocations);
-		// Disabled until we find a way to speed up things. 1000+ overlay items don't cut it... 
 		JCDecaux.loadParisBikeLocations(getApplicationContext(),
 				stationLocations);
-		
 		//Debug.stopMethodTracing();
 	}
 
+	private void zoomToEarthLevel() {
+		mc.setZoom(1);
+		// mapView.invalidate();
+	}
+	
 	private void animateMapToMyLocation() {
 		GeoPoint point = animateToLocation(myLocation);
 
@@ -143,12 +148,16 @@ public class MyCityBikesActivity extends MapActivity implements
 		return point;
 	}
 
-	private static final int MENU_MY_LOCATION = 1;
+	private static final int MENU_GO_TO_MY_LOCATION = 1;
+	private static final int MENU_GO_TO_CITY = 2;
+	private static final int MENU_GO_TO_DIRECTION = 3;
+	private static final int MENU_GO_TO_EARTH = 4;
 
 	private static final int MENU_CLOSEST_STATION_WITH_BIKE = 3;
 	private static final int MENU_CLOSEST_STATION_WITH_SLOT = 4;
 
-	private static final int MAP_MODE_MENU_GROUP = 1;
+	private static final int GO_TO_MENU_GROUP = 1;
+	private static final int MAP_MODE_MENU_GROUP = 2;
 
 	private static final int MENU_MAP_MODE_MAP = 1;
 	private static final int MENU_MAP_MODE_SATELLITE = 2;
@@ -159,9 +168,20 @@ public class MyCityBikesActivity extends MapActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		MenuItem item;
-		item = menu.add(Menu.NONE, MENU_MY_LOCATION, Menu.NONE, "My Location");
+		SubMenu subMenu;
+
+		
+		subMenu = menu.addSubMenu("Go to");
+
+		item = subMenu.add(GO_TO_MENU_GROUP, MENU_GO_TO_MY_LOCATION, Menu.NONE, "My Location");
 		item.setIcon(meMarker);
-		SubMenu subMenu = menu.addSubMenu("Map Mode");
+		
+		// FIXME implement
+		// item = subMenu.add(GO_TO_MENU_GROUP, MENU_GO_TO_CITY, Menu.NONE, "City");
+		//item = subMenu.add(GO_TO_MENU_GROUP, MENU_GO_TO_DIRECTION, Menu.NONE, "Direction");
+		item = subMenu.add(GO_TO_MENU_GROUP, MENU_GO_TO_EARTH, Menu.NONE, "Earth View");
+		
+		subMenu = menu.addSubMenu("Map Mode");
 		item = subMenu.add(MAP_MODE_MENU_GROUP, MENU_MAP_MODE_MAP, Menu.NONE,
 				"Map");
 		item.setChecked(!mapView.isSatellite() && !mapView.isTraffic()
@@ -196,14 +216,6 @@ public class MyCityBikesActivity extends MapActivity implements
 		switch (item.getGroupId()) {
 		case 0:
 			switch (item.getItemId()) {
-			case MENU_MY_LOCATION:
-				if (myLocation == null) {
-					// FIXME myLocation not yet populated. We should consider
-					// ask the user to retry re-populating
-					return true;
-				}
-				animateToLocation(myLocation);
-				return true;
 			case MENU_CLOSEST_STATION_WITH_BIKE:
 				findClosestStation(FindStationCriteria.ReadyBike);
 				return true;
@@ -212,6 +224,26 @@ public class MyCityBikesActivity extends MapActivity implements
 				return true;
 			}
 			break;
+		case GO_TO_MENU_GROUP:
+			switch (item.getItemId()) {
+				case MENU_GO_TO_MY_LOCATION:
+					if (myLocation == null) {
+						// FIXME myLocation not yet populated. We should consider
+						// ask the user to retry re-populating
+						return true;
+					}
+					mc.setZoom(15);
+					animateToLocation(myLocation);
+					return true;
+				case MENU_GO_TO_CITY:
+					return true;
+				case MENU_GO_TO_DIRECTION:
+					return true;
+				case MENU_GO_TO_EARTH:
+					zoomToEarthLevel();
+					return true;
+			}
+			
 		case MAP_MODE_MENU_GROUP:
 			item.setChecked(true);
 			switch (item.getItemId()) {
