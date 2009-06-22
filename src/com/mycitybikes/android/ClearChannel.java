@@ -14,7 +14,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.CDATASection;
-import org.w3c.dom.CharacterData;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -296,15 +295,22 @@ public class ClearChannel {
 			List<StationLocation> stationLocations, String httpUrl, String city, String country) {
 		try {
 			InputStream is = Utils.readContent(httpUrl, 5000);
-			String kml = extractKMLFromHtml(is);
-			Log.v(Constants.TAG, "Extracted KML: " + kml);
-			InputStream is2 = new ByteArrayInputStream(kml.getBytes("UTF-8"));
-			parseKml(is2, stationLocations, city, country);
+			loadBikeLocationsAndStatusFromKmlInPage(stationLocations, is, city,
+					country);
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to load " + city + "," + country
 					+ " bike station locations: " + e.getMessage());
 			e.printStackTrace();
 		}
+	}
+
+	static void loadBikeLocationsAndStatusFromKmlInPage(
+			List<StationLocation> stationLocations, InputStream is,
+			String city, String country) throws UnsupportedEncodingException {
+		String kml = extractKMLFromHtml(is);
+		Log.v(Constants.TAG, "Extracted KML: " + kml);
+		InputStream is2 = new ByteArrayInputStream(kml.getBytes("UTF-8"));
+		parseKml(is2, stationLocations, city, country);
 	}
 
 	static void parseKml(InputStream is,
@@ -346,7 +352,6 @@ public class ClearChannel {
 					continue;
 				}
 				if ("description".equals(child.getNodeName())) {
-					CharacterData d = ((CharacterData) child.getFirstChild());
 					CDATASection section = (CDATASection) child.getFirstChild();
 					String data = section.getData();
 					String[] parsedData = parseKmlDescription(data);
