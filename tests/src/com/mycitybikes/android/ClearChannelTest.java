@@ -116,7 +116,7 @@ public class ClearChannelTest extends AndroidTestCase {
 	}
 	
 	public void testExtractKMLFromHtml() throws Exception {
-		InputStream is = getResource("tests/localizaciones_bclna_catalan.php");
+		InputStream is = getResource("tests/localizaciones_bclna_catalan.html");
 		
 		String kml = ClearChannel.extractKMLFromHtml(is);
 		
@@ -128,7 +128,10 @@ public class ClearChannelTest extends AndroidTestCase {
 		InputStream is = getResource("tests/kml_bcln_catalan.xml"); //
 		
 		List<StationLocation> stationLocations = new ArrayList<StationLocation>();
+
+		// Debug.startMethodTracing("unitTest-myCityBikes");
 		ClearChannel.parseKml(is, stationLocations, "Barcelona", "Spain");
+		//Debug.stopMethodTracing();
 		
 		assertEquals(412, stationLocations.size());
 	}
