@@ -110,9 +110,11 @@ public class MyCityBikesActivity extends MapActivity implements
 				stationLocations);
 
 		// Disabled until we find a way to speed up things. 1000+ overlay items don't cut it...
+		/*
 		ClearChannel.loadBarcelonaBikeLocations(getApplicationContext(), stationLocations);
 		JCDecaux.loadParisBikeLocations(getApplicationContext(),
 				stationLocations);
+				*/
 		//Debug.stopMethodTracing();
 	}
 
