@@ -418,9 +418,10 @@ public class ClearChannel {
 	}
 
 	static String extractKMLFromHtml(InputStream is) {
-		BufferedReader r = new BufferedReader(new InputStreamReader(is));
 		String line = null;
+		BufferedReader r = null;
 		try {
+			r = new BufferedReader(new InputStreamReader(is, "ISO-8859-1"));
 			while ((line = r.readLine()) != null) {
 				int start = -1;
 				if ((start = line.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml")) >= 0) {
@@ -436,6 +437,14 @@ public class ClearChannel {
 			}
 		} catch (IOException e) {
 			throw new RuntimeException("Unable to extract KML", e);
+		} finally {
+			if (r != null) {
+				try {
+					r.close();
+				} catch (IOException e) {
+					throw new RuntimeException("Unable to close InputStream", e);
+				}
+			}
 		}
 		Log.v(Constants.TAG, "kml: " + line);
 		return line;

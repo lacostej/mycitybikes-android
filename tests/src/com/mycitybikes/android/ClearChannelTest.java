@@ -104,10 +104,20 @@ public class ClearChannelTest extends AndroidTestCase {
 				+ status.toString());
 	}
 	
+	public void testLoadBarcelonaBikeLocations_encoding() throws Exception {
+		List<StationLocation> bikeLocations = new ArrayList<StationLocation>();
+
+		InputStream is = getResource("tests/localizaciones.php");
+		
+		ClearChannel.loadBarcelonaBikeLocations(getContext(), bikeLocations);
+		
+		assertTrue(bikeLocations.get(5).getDescription().startsWith("Pg Lluís Companys"));
+	}
+	
 	public void testExtractKMLFromHtml() throws Exception {
 		// AssetManager assets = getContext().getAssets();
 		// InputStream is = assets.open("localizaciones.php");
-		InputStream is = getResource("tests/localizaciones.php"); //
+		InputStream is = getResource("tests/localizaciones.php");
 		
 		String kml = ClearChannel.extractKMLFromHtml(is);
 		
