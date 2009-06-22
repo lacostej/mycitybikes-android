@@ -46,8 +46,7 @@ public class ClearChannel {
 
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to load Oslo bike station locations: "
-					+ e.getMessage());
-			e.printStackTrace();
+					+ e.getMessage(), e);
 		}
 	}
 
@@ -61,8 +60,7 @@ public class ClearChannel {
 
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to load Stokholm bike station locations: "
-							+ e.getMessage());
-			e.printStackTrace();
+							+ e.getMessage(), e);
 		}
 	}
 
@@ -286,8 +284,7 @@ public class ClearChannel {
 
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to load Barcelona bike station locations: "
-							+ e.getMessage());
-			e.printStackTrace();
+							+ e.getMessage(), e);
 		}
 	}
 
@@ -299,8 +296,7 @@ public class ClearChannel {
 					country);
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to load " + city + "," + country
-					+ " bike station locations: " + e.getMessage());
-			e.printStackTrace();
+					+ " bike station locations: " + e.getMessage(), e);
 		}
 	}
 
@@ -457,7 +453,13 @@ public class ClearChannel {
 
 	public static void loadWashingtonBikeLocations(Context applicationContext,
 			List<StationLocation> stationLocations) {
-		parseWashington(Utils.readContent("https://www.smartbikedc.com/smartbike_locations.asp", 5000), stationLocations, "Washington DC", "USA");
+		try {
+			parseWashington(Utils.readContent("https://www.smartbikedc.com/smartbike_locations.asp", 5000), stationLocations, "Washington DC", "USA");
+		} catch (Exception e) {
+			Log.e(Constants.TAG, "Failed to load Washington DC bike station locations: "
+					+ e.getMessage(), e);
+		}
+		
 	}
 
 	static void parseWashington(InputStream is, List<StationLocation> stationLocations, String city, String country) {
