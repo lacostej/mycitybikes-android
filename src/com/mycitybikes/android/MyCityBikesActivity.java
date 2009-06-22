@@ -103,6 +103,10 @@ public class MyCityBikesActivity extends MapActivity implements
 
 		ClearChannel.loadOsloBikeLocations(getApplicationContext(),
 				stationLocations);
+
+		ClearChannel.loadWashingtonBikeLocations(getApplicationContext(),
+				stationLocations);
+		
 		ClearChannel.loadStockholmBikeLocations(getApplicationContext(),
 				stationLocations);
 		ClearChannel.loadBarcelonaBikeLocations(getApplicationContext(), stationLocations);

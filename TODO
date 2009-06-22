@@ -1,5 +1,8 @@
 Android ap
 
+BUILD
+* ant building
+
 BUGS
 * performance issue at startup
 * performance issue with many stations in maps

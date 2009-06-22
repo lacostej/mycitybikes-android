@@ -123,6 +123,21 @@ public class ClearChannelTest extends AndroidTestCase {
 		assertTrue(kml.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml"));
 		assertTrue(kml.endsWith("</kml>"));
 	}
+	
+	public void testParseWashington() throws Exception {
+		InputStream is = getResource("tests/washington_smartbike_locations.asp");
+		
+		List<StationLocation> stationLocations = new ArrayList<StationLocation>();
+
+		ClearChannel.parseWashington(is, stationLocations, "Washington DC", "USA");
+		
+		assertEquals(10, stationLocations.size());
+		
+		assertEquals("Logan Circle\n14th St SW & Rhode Island Ave, NW\nWashington, DC 20005", stationLocations.get(0).getDescription());
+		assertEquals(38.9083, stationLocations.get(0).getLatitude());
+		assertEquals(-77.03188, stationLocations.get(0).getLongitude());
+		assertEquals(1, stationLocations.get(0).getId());
+	}
 
 	public void testParseKMLCatalan() throws Exception {
 		InputStream is = getResource("tests/kml_bcln_catalan.xml"); //

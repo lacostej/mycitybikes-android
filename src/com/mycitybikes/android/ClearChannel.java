@@ -455,4 +455,103 @@ public class ClearChannel {
 		return line;
 	}
 
+	public static void loadWashingtonBikeLocations(Context applicationContext,
+			List<StationLocation> stationLocations) {
+		parseWashington(Utils.readContent("https://www.smartbikedc.com/smartbike_locations.asp", 5000), stationLocations, "Washington DC", "USA");
+	}
+
+	static void parseWashington(InputStream is, List<StationLocation> stationLocations, String city, String country) {
+		String line = null;
+		BufferedReader r = null;
+		try {
+			r = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+			while ((line = r.readLine()) != null) {
+				if (line.startsWith("//****")) {
+					line = r.readLine();
+					line = r.readLine();
+					break;
+				}
+			}
+			if (line == null) {
+				Log.e(Constants.TAG, "Couldn't find start delimeter to parse Washington HTML");
+				return;
+			}
+			
+			Integer id = null;
+			String description = null;
+			Double longitude = null;
+			Double latitude = null;
+			Integer emptyLocks = null;
+			Integer readyBikes = null;
+			do {
+				Log.v(Constants.TAG, "to parse: " + line);
+				if (line.startsWith("//")) {
+					id = new Integer(line.substring(2, line.indexOf('.')).trim());
+				} else if (line.startsWith("var point")) {
+					Pattern p = Pattern.compile(".*\\((.*),(.*)\\).*");
+					Matcher m = p.matcher(line);
+					if (m.matches() && m.groupCount() == 2) {
+						longitude = new Double(m.group(1));
+						latitude = new Double(m.group(2));
+					} else {
+						Log.e(Constants.TAG, "Couldn't parse geo position from:" + line);
+					}
+				} else if (line.startsWith("address")) {
+				    description = line.substring("address = \"".length(), line.length() - 2).replaceAll("<br />", "\n");
+				} else if (line.startsWith("html = ")) {
+					Pattern p = Pattern.compile(".*<font color=red>([0-9]*)</font>.*Slots: ([0-9]*)<br>.*");
+					Matcher m = p.matcher(line);
+					if (m.matches() && m.groupCount() == 2) {
+						readyBikes = new Integer(m.group(1));
+						emptyLocks = new Integer(m.group(2));
+					} else {
+						Log.e(Constants.TAG, "Couldn't parse station statuses from:" + line);
+					}
+				} else if (line.startsWith("addMarker")) {
+					if (id == null || description == null || latitude == null || emptyLocks == null || readyBikes == null) {
+						Log.e(Constants.TAG, "Missing data in a Whashington station.");
+						break;
+					}
+					final BikeStationStatus bikeStationStatus = new BikeStationStatus();
+					bikeStationStatus.setDescription(description);
+					bikeStationStatus.setEmptyLocks(emptyLocks);
+					bikeStationStatus.setReadyBikes(readyBikes);
+					bikeStationStatus.setOnline(true);
+					StationLocation stationLocation = new StationLocation(id, city, country, description, longitude, latitude);
+					stationLocation.setStationInfoBuilder(new StationInfoBuilder() {
+						@Override
+						public String buildStationInfo() {
+							return formatStationInfo(bikeStationStatus);
+						}
+					});
+					Log.v(Constants.TAG, "loaded stationLocation: " + stationLocation);
+					stationLocations.add(stationLocation);
+					id = null;
+					description = null;
+					longitude = null;
+					latitude = null;
+					emptyLocks = null;
+					readyBikes = null;
+				}
+				line = r.readLine();
+				if (line == null) {
+					break;
+				}
+				if (line.matches(" *\\}.*")) {
+					break;
+				}
+			} while (true);
+		} catch (IOException e) {
+			throw new RuntimeException("Unable to extract KML", e);
+		} finally {
+			if (r != null) {
+				try {
+					r.close();
+				} catch (IOException e) {
+					throw new RuntimeException("Unable to close InputStream", e);
+				}
+			}
+		}
+	}
+
 }
