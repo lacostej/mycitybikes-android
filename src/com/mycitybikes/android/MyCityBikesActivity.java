@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -97,6 +98,8 @@ public class MyCityBikesActivity extends MapActivity implements
 			Log.e(Constants.TAG, "Failed to requestLocationUpdates() from "
 					+ providerName + ": " + e.getMessage(), e);
 		}
+		
+		//Debug.startMethodTracing("myCityBikes", 32*1024*1024);
 
 		ClearChannel.loadOsloBikeLocations(getApplicationContext(),
 				stationLocations);
@@ -104,10 +107,10 @@ public class MyCityBikesActivity extends MapActivity implements
 				stationLocations);
 		ClearChannel.loadBarcelonaBikeLocations(getApplicationContext(), stationLocations);
 		// Disabled until we find a way to speed up things. 1000+ overlay items don't cut it... 
-		/*
 		JCDecaux.loadParisBikeLocations(getApplicationContext(),
 				stationLocations);
-				*/
+		
+		//Debug.stopMethodTracing();
 	}
 
 	private void animateMapToMyLocation() {

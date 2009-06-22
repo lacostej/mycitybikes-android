@@ -22,3 +22,9 @@ Known quirks:
 ** pages advertise UTF-8 but seem to be ISO-8859-1 (maybe google map trick?)
 ** some coordinates have an invalid format (, instead of .)
 
+* PARIS
+** several stations (from Paris, displayed in strange places (one in Montrueil, one in Algeria). Velib easter egg ? :)
+V/MyCityBikes(18070): tapped station: [1.75561504416,50.4549656869] 237-241 RUE DE PARIS - 93100 MONTREUIL [France,Paris-31003]onTapText: null
+V/MyCityBikes(18070): tapped station: [-3.40456062425,27.1409733745] 16 RUE BARBES - 92240 MALAKOFF [France,Paris-21202]onTapText: null
+
+
