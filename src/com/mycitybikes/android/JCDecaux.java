@@ -30,8 +30,7 @@ public class JCDecaux {
 		} catch (Exception e) {
 			Log.e(Constants.TAG,
 					"Failed to load Paris bike station locations: "
-							+ e.getMessage());
-			e.printStackTrace();
+							+ e.getMessage(), e);
 		}
 	}
 
