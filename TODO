@@ -1,4 +1,4 @@
-Android ap
+Android app
 
 BUILD
 * ant building
@@ -15,25 +15,23 @@ V/MyCityBikes(18070): tapped station: [-3.40456062425,27.1409733745] 16 RUE BARB
 * clean up capitalized descriptions in Paris ?
 * normalize descriptions ? (e.g. zip codes / town)
 
-DEUGGING
+DEBUGGING
 * display cart corner GPS positions
 * display selected item GPS positions
-* print out lgog
+* print out log
 
 UI
 * get a nice logo
 * replace Toast with proper Dialog
-* special icons for empty and full stations
+* special icons/colors for empty and full stations
 * multiple languages
 
 FEATURES
-* handle lack of access Internet properly
+* properly handle lack of Internet access
 * support find specific location
 * support new cities
-** finish Paris support (speed up)
-*** implement other French cities
-** implement Barcelona
-*** implement other smart bikes cities
+** implement other French cities
+** implement other smartbike.com cities
 * find a way to support extra data from all apis
 
 * display news from mycitybikes server (e.g. when supported cities change but app version is the same).
@@ -45,12 +43,13 @@ FEATURES
 * find a way to display a different icon for empty / full stations. Can we do this without reading all rack statuses ? This would cause many queries if done live...
   Or can we find a way to differentiate stations with recently updated statuses ? Maybe only fetch the close ones. Can we do this without visualy overloading the image ?
 
+* display RSS feed of coming features ?
+  http://github.com/feeds/lacostej/commits/mycitybikes-android/master
 
 CLEANUP
 * use MyLocationOverlay for my location
 * refactor code
 * define common API
-* get rid of
 
 NEW MENU
 
@@ -61,5 +60,6 @@ Go to
 
 More
   Settings
+  News
+  Upstream changes (move into Developers or Advanced?)
   About
-
