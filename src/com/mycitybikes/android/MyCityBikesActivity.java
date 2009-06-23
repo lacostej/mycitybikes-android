@@ -25,7 +25,6 @@ import com.mycitybikes.android.model.StationLocation;
 import com.mycitybikes.android.model.StationStatus;
 import com.mycitybikes.android.util.AndroidUtils;
 import com.mycitybikes.android.view.MapLocationItemizedOverlay;
-import com.mycitybikes.android.view.MapWithLocationsView;
 
 /*
  * TODO
