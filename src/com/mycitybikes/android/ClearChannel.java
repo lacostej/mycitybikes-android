@@ -24,9 +24,10 @@ import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
-import com.mycitybikes.android.model.StationStatus;
+import com.mycitybikes.android.model.City;
 import com.mycitybikes.android.model.StationInfoBuilder;
 import com.mycitybikes.android.model.StationLocation;
+import com.mycitybikes.android.model.StationStatus;
 import com.mycitybikes.android.util.AndroidUtils;
 import com.mycitybikes.android.util.Utils;
 
@@ -43,7 +44,7 @@ public class ClearChannel {
 		try {
 			AssetManager assets = context.getAssets();
 			InputStream is = assets.open("oslo2.xml");
-			loadStationLocationsAsset(is, stationLocations, "Oslo", "Norway");
+			loadStationLocationsAsset(is, stationLocations, Constants.CITY_OSLO);
 
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to load Oslo bike station locations: "
@@ -56,8 +57,7 @@ public class ClearChannel {
 		try {
 			AssetManager assets = context.getAssets();
 			InputStream is = assets.open("stockholm.xml");
-			loadStationLocationsAsset(is, stationLocations, "Stockholm",
-					"Sweeden");
+			loadStationLocationsAsset(is, stationLocations, Constants.CITY_STOCKHOLM);
 
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to load Stokholm bike station locations: "
@@ -66,7 +66,7 @@ public class ClearChannel {
 	}
 
 	static void loadStationLocationsAsset(InputStream is,
-			List<StationLocation> stationLocations, String city, String country)
+			List<StationLocation> stationLocations, City city)
 			throws IOException {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db;
@@ -119,7 +119,7 @@ public class ClearChannel {
 			}
 
 			final StationLocation stationLocation = new StationLocation(id,
-					city, country, description, longitude, latitude);
+					city, description, longitude, latitude);
 			stationLocation.setStationInfoBuilder(new StationInfoBuilder() {
 
 				@Override
@@ -285,7 +285,7 @@ public class ClearChannel {
 		try {
 			loadBikeLocationsAndStatusFromKmlInPage(context, stationLocations,
 					"http://www.bicing.com/localizaciones/localizaciones.php",
-					"Barcelona", "Spain");
+					Constants.CITY_BARCELONA);
 
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to load Barcelona bike station locations: "
@@ -294,28 +294,26 @@ public class ClearChannel {
 	}
 
 	public static void loadBikeLocationsAndStatusFromKmlInPage(Context context,
-			List<StationLocation> stationLocations, String httpUrl, String city, String country) {
+			List<StationLocation> stationLocations, String httpUrl, City city) {
 		try {
 			InputStream is = Utils.readContent(httpUrl, 5000);
-			loadBikeLocationsAndStatusFromKmlInPage(stationLocations, is, city,
-					country);
+			loadBikeLocationsAndStatusFromKmlInPage(stationLocations, is, city);
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Failed to load " + city + "," + country
-					+ " bike station locations: " + e.getMessage(), e);
+			Log.e(Constants.TAG, "Failed to load " + city + " bike station locations: " + e.getMessage(), e);
 		}
 	}
 
 	static void loadBikeLocationsAndStatusFromKmlInPage(
 			List<StationLocation> stationLocations, InputStream is,
-			String city, String country) throws UnsupportedEncodingException {
+			City city) throws UnsupportedEncodingException {
 		String kml = extractKMLFromHtml(is);
 		Log.v(Constants.TAG, "Extracted KML: " + kml);
 		InputStream is2 = new ByteArrayInputStream(kml.getBytes("UTF-8"));
-		parseKml(is2, stationLocations, city, country);
+		parseKml(is2, stationLocations, city);
 	}
 
 	static void parseKml(InputStream is,
-			List<StationLocation> stationLocations, String city, String country) {
+			List<StationLocation> stationLocations, City city) {
 
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db;
@@ -377,7 +375,7 @@ public class ClearChannel {
 				continue;
 			}
 			final StationLocation stationLocation = new StationLocation(id,
-					city, country, description, geoPoint);
+					city, description, geoPoint);
 
 			stationLocation.setStationInfoBuilder(new StationInfoBuilder() {
 
@@ -453,7 +451,7 @@ public class ClearChannel {
 	public static void loadWashingtonBikeLocations(Context applicationContext,
 			List<StationLocation> stationLocations) {
 		try {
-			parseWashington(Utils.readContent("https://www.smartbikedc.com/smartbike_locations.asp", 5000), stationLocations, "Washington DC", "USA");
+			parseWashington(Utils.readContent("https://www.smartbikedc.com/smartbike_locations.asp", 5000), stationLocations, Constants.CITY_WASHINGTON_DC);
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Failed to load Washington DC bike station locations: "
 					+ e.getMessage(), e);
@@ -461,7 +459,7 @@ public class ClearChannel {
 		
 	}
 
-	static void parseWashington(InputStream is, List<StationLocation> stationLocations, String city, String country) {
+	static void parseWashington(InputStream is, List<StationLocation> stationLocations, City city) {
 		String line = null;
 		BufferedReader r = null;
 		try {
@@ -517,7 +515,7 @@ public class ClearChannel {
 					bikeStationStatus.setEmptyLocks(emptyLocks);
 					bikeStationStatus.setReadyBikes(readyBikes);
 					bikeStationStatus.setOnline(true);
-					final StationLocation stationLocation = new StationLocation(id, city, country, description, longitude, latitude);
+					final StationLocation stationLocation = new StationLocation(id, city, description, longitude, latitude);
 					stationLocation.setStationInfoBuilder(new StationInfoBuilder() {
 						@Override
 						public String buildStationInfo() {

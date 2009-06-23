@@ -6,22 +6,20 @@ import com.mycitybikes.android.util.AndroidUtils;
 public class StationLocation {
 
 	private final GeoPoint location;
-	private final String city;
-	private final String country;
+	private final City city;
 	private final String description;
 	private final int id;
 	private StationInfoBuilder stationInfoBuilder;
 
-	public StationLocation(int id, String city, String country,
+	public StationLocation(int id, City city,
 			String description, double longitude, double latitude) {
-	    this(id, city, country, description, AndroidUtils.buildGeoPoint(latitude, longitude));
+	    this(id, city, description, AndroidUtils.buildGeoPoint(latitude, longitude));
 	}
 
-    public StationLocation(int id, String city, String country,
+    public StationLocation(int id, City city,
             String description, GeoPoint geoPoint) {
         this.id = id;
         this.city = city;
-        this.country = country;
         this.location = geoPoint;
         this.description = description;
     }
@@ -31,11 +29,11 @@ public class StationLocation {
 	}
 
 	public String getCity() {
-		return city;
+		return city.getName();
 	}
 
 	public String getCountry() {
-		return country;
+		return city.getCountry();
 	}
 
 	public GeoPoint getLocation() {
@@ -57,6 +55,6 @@ public class StationLocation {
 	@Override
 	public String toString() {
 		return new String("[" + location + "] " + description
-				+ " [" + country + "," + city + "-" + id + "]");
+				+ " [" + getCountry() + "," + getCity() + "-" + id + "]");
 	}
 }

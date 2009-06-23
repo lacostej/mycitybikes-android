@@ -15,9 +15,10 @@ import org.w3c.dom.NodeList;
 import android.content.Context;
 import android.util.Log;
 
-import com.mycitybikes.android.model.StationStatus;
+import com.mycitybikes.android.model.City;
 import com.mycitybikes.android.model.StationInfoBuilder;
 import com.mycitybikes.android.model.StationLocation;
+import com.mycitybikes.android.model.StationStatus;
 import com.mycitybikes.android.util.Utils;
 
 public class JCDecaux {
@@ -26,7 +27,7 @@ public class JCDecaux {
 		try {
 			InputStream is = Utils.readContent(
 					"http://www.velib.paris.fr/service/carto", 5000);
-			loadParisBikeLocations(is, stationLocations, "Paris", "France");
+			loadParisBikeLocations(is, stationLocations, Constants.CITY_PARIS);
 		} catch (Exception e) {
 			Log.e(Constants.TAG,
 					"Failed to load Paris bike station locations: "
@@ -35,7 +36,7 @@ public class JCDecaux {
 	}
 
 	static void loadParisBikeLocations(InputStream is,
-			List<StationLocation> stationLocations, String city, String country) {
+			List<StationLocation> stationLocations, City city) {
 
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db;
@@ -90,7 +91,7 @@ public class JCDecaux {
 			// markerAttributes.getNamedItem("bonus");
 
 			final StationLocation stationLocation = new StationLocation(id,
-					city, country, description, longitude, latitude);
+					city, description, longitude, latitude);
 
 			stationLocation.setStationInfoBuilder(new StationInfoBuilder() {
 

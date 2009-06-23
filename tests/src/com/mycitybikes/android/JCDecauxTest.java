@@ -66,7 +66,7 @@ public class JCDecauxTest extends AndroidTestCase {
 	public void testLoadParisBikeLocations() throws IOException {
 		List<StationLocation> bikeLocations = new ArrayList<StationLocation>();
 		InputStream is = getStringInputStream(PARIS_CARTO_XML);
-		JCDecaux.loadParisBikeLocations(is, bikeLocations, "Paris", "France");
+		JCDecaux.loadParisBikeLocations(is, bikeLocations, Constants.CITY_PARIS);
 
 		assertEquals(2, bikeLocations.size());
 		assertEquals(20020, bikeLocations.get(0).getId());

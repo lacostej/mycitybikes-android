@@ -37,8 +37,7 @@ public class ClearChannelTest extends AndroidTestCase {
 	public void testLoadOsloBikeLocations() throws IOException {
 		List<StationLocation> bikeLocations = new ArrayList<StationLocation>();
 		InputStream is = getStringInputStream(OSLO_XML);
-		ClearChannel.loadStationLocationsAsset(is, bikeLocations, "Oslo",
-				"Norway");
+		ClearChannel.loadStationLocationsAsset(is, bikeLocations, Constants.CITY_OSLO);
 
 		assertEquals(3, bikeLocations.size());
 		assertEquals(1, bikeLocations.get(0).getId());
@@ -85,7 +84,7 @@ public class ClearChannelTest extends AndroidTestCase {
 
 		InputStream is = getResource("tests/localizaciones_bclna_catalan.html");
 		
-		ClearChannel.loadBikeLocationsAndStatusFromKmlInPage(bikeLocations, is, "Barcelona", "Spain");
+		ClearChannel.loadBikeLocationsAndStatusFromKmlInPage(bikeLocations, is, Constants.CITY_BARCELONA);
 		
 		assertTrue(bikeLocations.size() > 0);
 		assertTrue(bikeLocations.get(5).getDescription().startsWith("Pg Lluís Companys"));
@@ -105,7 +104,7 @@ public class ClearChannelTest extends AndroidTestCase {
 		
 		List<StationLocation> stationLocations = new ArrayList<StationLocation>();
 
-		ClearChannel.parseWashington(is, stationLocations, "Washington DC", "USA");
+		ClearChannel.parseWashington(is, stationLocations, Constants.CITY_WASHINGTON_DC);
 		
 		assertEquals(10, stationLocations.size());
 		
@@ -121,7 +120,7 @@ public class ClearChannelTest extends AndroidTestCase {
 		List<StationLocation> stationLocations = new ArrayList<StationLocation>();
 
 		// Debug.startMethodTracing("unitTest-myCityBikes");
-		ClearChannel.parseKml(is, stationLocations, "Barcelona", "Spain");
+		ClearChannel.parseKml(is, stationLocations, Constants.CITY_BARCELONA);
 		//Debug.stopMethodTracing();
 		
 		assertEquals(412, stationLocations.size());
