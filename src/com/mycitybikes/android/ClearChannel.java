@@ -23,10 +23,11 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 
+import com.google.android.maps.GeoPoint;
 import com.mycitybikes.android.model.BikeStationStatus;
-import com.mycitybikes.android.model.GeoPosition;
 import com.mycitybikes.android.model.StationInfoBuilder;
 import com.mycitybikes.android.model.StationLocation;
+import com.mycitybikes.android.util.AndroidUtils;
 import com.mycitybikes.android.util.Utils;
 
 /**
@@ -332,12 +333,11 @@ public class ClearChannel {
 					+ kmlNode.getNodeName());
 		}
 
-		Integer id = null;
-		String description = null;
-		Double latitude = null;
-		Double longitude = null;
 		NodeList placemarks = dom.getElementsByTagName("Placemark");
 		for (int i = 0; i < placemarks.getLength(); i++) {
+	        Integer id = null;
+	        String description = null;
+	        GeoPoint geoPoint = null;
 			Node placemarkNode = placemarks.item(i);
 
 			final BikeStationStatus bikeStationStatus = new BikeStationStatus();
@@ -364,23 +364,20 @@ public class ClearChannel {
 						bikeStationStatus.setEmptyLocks(new Integer(parsedData[3]));
 					}
 				} else if ("Point".equals(child.getNodeName())) {
-					String coordinates = child.getFirstChild().getFirstChild().getNodeValue();
-					GeoPosition geoPosition = parseKmlCoordinates(coordinates);
-					if (geoPosition == null) {
+					String coordinates = child.getFirstChild().getFirstChild().getNodeValue().trim();
+					geoPoint = parseKmlCoordinates(coordinates);
+					if (geoPoint == null) {
 						Log.e(Constants.TAG, "couldn't extract coordinates from:" + coordinates);
-					} else {
-						longitude = geoPosition.getLongitude();
-						latitude = geoPosition.getLatitude();
 					}
 				}
 			}
 
-			if (description == null || longitude == null || latitude == null) {
+			if (description == null || geoPoint == null) {
 				Log.e(Constants.TAG, "couldn't find station location information. Skipping...");
-				break;
+				continue;
 			}
 			final StationLocation stationLocation = new StationLocation(id,
-					city, country, description, longitude, latitude);
+					city, country, description, geoPoint);
 
 			stationLocation.setStationInfoBuilder(new StationInfoBuilder() {
 
@@ -408,14 +405,14 @@ public class ClearChannel {
 		return null;
 	}
 
-	static GeoPosition parseKmlCoordinates(String coordinates) {
+	static GeoPoint parseKmlCoordinates(String coordinates) {
 		Pattern p = Pattern.compile("([0-9]+[\\.,][0-9]+)\\??,([0-9]+[\\.,][0-9]+),(.*)");
 		Matcher m = p.matcher(coordinates);
 		if (m.matches() && m.groupCount() == 3) {
 			double longitude = new Double(m.group(1).replace(",", "."));
 			double latitude = new Double(m.group(2).replace(",", "."));
-			double altitude = new Double(m.group(3));
-			return new GeoPosition(latitude, longitude, altitude);
+			//double altitude = new Double(m.group(3));
+			return AndroidUtils.buildGeoPoint(latitude, longitude);
 		}
 		return null;
 	}

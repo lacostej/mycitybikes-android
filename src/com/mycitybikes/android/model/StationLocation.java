@@ -1,30 +1,31 @@
 package com.mycitybikes.android.model;
 
+import com.google.android.maps.GeoPoint;
+import com.mycitybikes.android.util.AndroidUtils;
+
 public class StationLocation {
 
-	private final double longitude;
-	private final double latitude;
+	private final GeoPoint location;
 	private final String city;
 	private final String country;
 	private final String description;
 	private final int id;
 	private StationInfoBuilder stationInfoBuilder;
 
-	public StationLocation(String city, String country, double longitude,
-			double latitude, int id) {
-		this(id, city, country, null, longitude, latitude);
-	}
-
 	public StationLocation(int id, String city, String country,
 			String description, double longitude, double latitude) {
-		this.id = id;
-		this.city = city;
-		this.country = country;
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.description = description;
+	    this(id, city, country, description, AndroidUtils.buildGeoPoint(latitude, longitude));
 	}
 
+    public StationLocation(int id, String city, String country,
+            String description, GeoPoint geoPoint) {
+        this.id = id;
+        this.city = city;
+        this.country = country;
+        this.location = geoPoint;
+        this.description = description;
+    }
+	
 	public void setStationInfoBuilder(StationInfoBuilder stationInfoBuilder) {
 		this.stationInfoBuilder = stationInfoBuilder;
 	}
@@ -37,12 +38,8 @@ public class StationLocation {
 		return country;
 	}
 
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public double getLatitude() {
-		return latitude;
+	public GeoPoint getLocation() {
+		return location;
 	}
 
 	public String getDescription() {
@@ -59,7 +56,7 @@ public class StationLocation {
 
 	@Override
 	public String toString() {
-		return new String("[" + longitude + "," + latitude + "] " + description
+		return new String("[" + location + "] " + description
 				+ " [" + country + "," + city + "-" + id + "]");
 	}
 }

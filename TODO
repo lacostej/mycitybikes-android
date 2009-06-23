@@ -48,7 +48,6 @@ FEATURES
   http://github.com/feeds/lacostej/commits/mycitybikes-android/master
 
 CLEANUP
-* is there an advantage of keeping below latitudeE6 precision (such as found in Oslo) ? If not replace GeoPosition with GeoPoint as we don't use altitude
 * use MyLocationOverlay for my location
 * refactor code
 * define common API

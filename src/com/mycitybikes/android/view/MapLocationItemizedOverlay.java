@@ -16,7 +16,6 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.mycitybikes.android.Constants;
 import com.mycitybikes.android.model.StationLocation;
-import com.mycitybikes.android.util.AndroidUtils;
 
 public class MapLocationItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 
@@ -54,8 +53,7 @@ public class MapLocationItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 			item.setMarker(boundCenterBottom(meMarker));
 		} else {
 			final StationLocation l = this.stationLocations.get(i - 1);
-			item = new OverlayItem(AndroidUtils.buildGeoPoint(l.getLatitude(),
-					l.getLongitude()), "", "");
+			item = new OverlayItem(l.getLocation(), "", "");
 		}
 		mOverlays.add(item);
 		return item;

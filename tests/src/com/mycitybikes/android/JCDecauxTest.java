@@ -70,8 +70,8 @@ public class JCDecauxTest extends AndroidTestCase {
 
 		assertEquals(2, bikeLocations.size());
 		assertEquals(20020, bikeLocations.get(0).getId());
-		assertEquals(48.8610789316, bikeLocations.get(0).getLatitude());
-		assertEquals(2.40036207675, bikeLocations.get(0).getLongitude());
+		assertEquals(48861078, bikeLocations.get(0).getLocation().getLatitudeE6());
+		assertEquals(2400362, bikeLocations.get(0).getLocation().getLongitudeE6());
 		assertEquals("183 RUE DES PYRENEES - 75020 PARIS", bikeLocations.get(0)
 				.getDescription());
 	}

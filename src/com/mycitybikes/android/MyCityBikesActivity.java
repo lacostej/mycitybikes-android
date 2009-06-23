@@ -310,9 +310,9 @@ public class MyCityBikesActivity extends MapActivity implements
 		List<LocationAndDistance> sortedStationLocations = new ArrayList<LocationAndDistance>();
 		for (StationLocation l : stationLocations) {
 			Location loc = new Location(Constants.TAG);
-			loc.setLatitude(l.getLatitude());
-			loc.setLongitude(l.getLongitude());
-			sortedStationLocations.add(new LocationAndDistance(l/* , loc */,
+			loc.setLatitude(l.getLocation().getLatitudeE6() / 1E6);
+			loc.setLongitude(l.getLocation().getLongitudeE6() / 1E6);
+			sortedStationLocations.add(new LocationAndDistance(l,
 					center.distanceTo(loc)));
 		}
 		Collections.sort(sortedStationLocations);

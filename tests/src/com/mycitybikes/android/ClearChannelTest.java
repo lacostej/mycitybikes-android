@@ -10,8 +10,8 @@ import java.util.List;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+import com.google.android.maps.GeoPoint;
 import com.mycitybikes.android.model.BikeStationStatus;
-import com.mycitybikes.android.model.GeoPosition;
 import com.mycitybikes.android.model.StationLocation;
 
 public class ClearChannelTest extends AndroidTestCase {
@@ -42,8 +42,8 @@ public class ClearChannelTest extends AndroidTestCase {
 
 		assertEquals(3, bikeLocations.size());
 		assertEquals(1, bikeLocations.get(0).getId());
-		assertEquals(59.92786125852981, bikeLocations.get(0).getLatitude());
-		assertEquals(10.709009170532226, bikeLocations.get(0).getLongitude());
+		assertEquals(59927861, bikeLocations.get(0).getLocation().getLatitudeE6());
+		assertEquals(10709009, bikeLocations.get(0).getLocation().getLongitudeE6());
 		assertEquals("Middelthunsgate (vis-a-vis nr. 21, retning Kirkeveien)",
 				bikeLocations.get(0).getDescription());
 
@@ -110,8 +110,8 @@ public class ClearChannelTest extends AndroidTestCase {
 		assertEquals(10, stationLocations.size());
 		
 		assertEquals("Logan Circle\n14th St SW & Rhode Island Ave, NW\nWashington, DC 20005", stationLocations.get(0).getDescription());
-		assertEquals(38.9083, stationLocations.get(0).getLatitude());
-		assertEquals(-77.03188, stationLocations.get(0).getLongitude());
+		assertEquals(38908300, stationLocations.get(0).getLocation().getLatitudeE6());
+		assertEquals(-77031880, stationLocations.get(0).getLocation().getLongitudeE6());
 		assertEquals(1, stationLocations.get(0).getId());
 	}
 
@@ -128,19 +128,17 @@ public class ClearChannelTest extends AndroidTestCase {
 	}
 	
 	public void testParseKmlCoordinatesWithDots() {
-        GeoPosition parsed = ClearChannel.parseKmlCoordinates("2.183453,41.389044,13");
+        GeoPoint parsed = ClearChannel.parseKmlCoordinates("2.183453,41.389044,13");
         
-        assertEquals(2.183453, parsed.getLongitude());
-        assertEquals(41.389044, parsed.getLatitude());
-        assertEquals(13.0, parsed.getAltitude());
+        assertEquals(2183453, parsed.getLongitudeE6());
+        assertEquals(41389044, parsed.getLatitudeE6());
 	}
 
 	public void testParseKmlCoordinatesWithCommas() {
-        GeoPosition parsed = ClearChannel.parseKmlCoordinates("2,180233,41,390956,13");
+        GeoPoint parsed = ClearChannel.parseKmlCoordinates("2,180233,41,390956,13");
         
-        assertEquals(2.180233, parsed.getLongitude());
-        assertEquals(41.390956, parsed.getLatitude());
-        assertEquals(13.0, parsed.getAltitude());
+        assertEquals(2180233, parsed.getLongitudeE6());
+        assertEquals(41390956, parsed.getLatitudeE6());
 	}
 
 	public void testParseKmlDescription() {
