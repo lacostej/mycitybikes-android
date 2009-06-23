@@ -15,7 +15,7 @@ import org.w3c.dom.NodeList;
 import android.content.Context;
 import android.util.Log;
 
-import com.mycitybikes.android.model.BikeStationStatus;
+import com.mycitybikes.android.model.StationStatus;
 import com.mycitybikes.android.model.StationInfoBuilder;
 import com.mycitybikes.android.model.StationLocation;
 import com.mycitybikes.android.util.Utils;
@@ -63,7 +63,7 @@ public class JCDecaux {
 			Double longitude = null;
 
 			// FIXME refactor model as to attach status to station
-			BikeStationStatus bikeStationStatus = new BikeStationStatus();
+			StationStatus bikeStationStatus = new StationStatus();
 
 			NamedNodeMap markerAttributes = markerNode.getAttributes();
 			Node n;
@@ -105,7 +105,7 @@ public class JCDecaux {
 		}
 	}
 
-	static BikeStationStatus readBikeStationStatus(int id) {
+	static StationStatus readBikeStationStatus(int id) {
 		try {
 			InputStream is = Utils.readContent(
 					"http://www.velib.paris.fr/service/stationdetails/" + id,
@@ -119,7 +119,7 @@ public class JCDecaux {
 		}
 	}
 
-	static BikeStationStatus parseStatus(InputStream is) {
+	static StationStatus parseStatus(InputStream is) {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db;
 		Document dom;
@@ -135,7 +135,7 @@ public class JCDecaux {
 			throw new IllegalArgumentException("Unexpected XML:"
 					+ stationNode.getNodeName());
 		}
-		BikeStationStatus bikeStationStatus = new BikeStationStatus();
+		StationStatus bikeStationStatus = new StationStatus();
 		NodeList stationChildren = stationNode.getChildNodes();
 		for (int i = 0; i < stationChildren.getLength(); i++) {
 			Node child = stationChildren.item(i);
@@ -182,7 +182,7 @@ public class JCDecaux {
 		int stationIndex = stationLocation.getId();
 		String result;
 		try {
-			BikeStationStatus status = readBikeStationStatus(stationIndex);
+			StationStatus status = readBikeStationStatus(stationIndex);
 			if (!status.isOnline()) {
 				result = stationLocation.getDescription()
 						+ "\n\n(no station information)";

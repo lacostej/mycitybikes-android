@@ -24,7 +24,7 @@ import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
-import com.mycitybikes.android.model.BikeStationStatus;
+import com.mycitybikes.android.model.StationStatus;
 import com.mycitybikes.android.model.StationInfoBuilder;
 import com.mycitybikes.android.model.StationLocation;
 import com.mycitybikes.android.util.AndroidUtils;
@@ -133,7 +133,7 @@ public class ClearChannel {
 		}
 	}
 
-	public static BikeStationStatus readBikeStationStatus(String httpUrl) {
+	public static StationStatus readBikeStationStatus(String httpUrl) {
 		try {
 			return parseStatus(Utils.readContent(httpUrl, 5000));
 		} catch (Exception e) {
@@ -142,7 +142,7 @@ public class ClearChannel {
 		}
 	}
 
-	static BikeStationStatus parseStatus(InputStream content)
+	static StationStatus parseStatus(InputStream content)
 			throws IOException {
 		String s = Utils.parseISToString(content);
 		s = s.substring(s.indexOf("<string"));
@@ -179,7 +179,7 @@ public class ClearChannel {
 	 * xstream.fromXML(is); return bikeStationStatus; }
 	 */
 
-	private static BikeStationStatus parseBikeStationStatusDOM(InputStream is) {
+	private static StationStatus parseBikeStationStatusDOM(InputStream is) {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db;
 		Document dom;
@@ -195,7 +195,7 @@ public class ClearChannel {
 			throw new IllegalArgumentException("Unexpected XML:"
 					+ stationNode.getNodeName());
 		}
-		BikeStationStatus bikeStationStatus = new BikeStationStatus();
+		StationStatus bikeStationStatus = new StationStatus();
 		NodeList stationChildren = stationNode.getChildNodes();
 		for (int i = 0; i < stationChildren.getLength(); i++) {
 			Node child = stationChildren.item(i);
@@ -249,7 +249,7 @@ public class ClearChannel {
 	public static String getOsloStationInfo(StationLocation stationLocation) {
 		String result;
 		try {
-			BikeStationStatus status = readBikeStationStatus(stationLocation.getId());
+			StationStatus status = readBikeStationStatus(stationLocation.getId());
 			result = formatStationInfo(stationLocation, status);
 		} catch (Exception e) {
 			result = "Error: station information not available";
@@ -257,7 +257,7 @@ public class ClearChannel {
 		return result;
 	}
 
-	private static String formatStationInfo(StationLocation stationLocation, BikeStationStatus status) {
+	private static String formatStationInfo(StationLocation stationLocation, StationStatus status) {
 		String result;
 		if (!status.isOnline()) {
 			result = stationLocation.getDescription() + "\n\n(no station information)";
@@ -268,7 +268,7 @@ public class ClearChannel {
 		return result;
 	}
 
-	public static BikeStationStatus readBikeStationStatus(int stationId) {
+	public static StationStatus readBikeStationStatus(int stationId) {
 		return ClearChannel
 				.readBikeStationStatus("http://smartbikeportal.clearchannel.no/public/mobapp/maq.asmx/getRack?id="
 						+ stationId);
@@ -340,7 +340,7 @@ public class ClearChannel {
 	        GeoPoint geoPoint = null;
 			Node placemarkNode = placemarks.item(i);
 
-			final BikeStationStatus bikeStationStatus = new BikeStationStatus();
+			final StationStatus bikeStationStatus = new StationStatus();
 
 			// FIXME find out how offline is supported for Barcelona and the like
 			bikeStationStatus.setOnline(true);
@@ -513,7 +513,7 @@ public class ClearChannel {
 						Log.e(Constants.TAG, "Missing data in a Whashington station.");
 						break;
 					}
-					final BikeStationStatus bikeStationStatus = new BikeStationStatus();
+					final StationStatus bikeStationStatus = new StationStatus();
 					bikeStationStatus.setEmptyLocks(emptyLocks);
 					bikeStationStatus.setReadyBikes(readyBikes);
 					bikeStationStatus.setOnline(true);

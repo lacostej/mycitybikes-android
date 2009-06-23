@@ -20,7 +20,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.Overlay;
-import com.mycitybikes.android.model.BikeStationStatus;
+import com.mycitybikes.android.model.StationStatus;
 import com.mycitybikes.android.model.StationLocation;
 import com.mycitybikes.android.util.AndroidUtils;
 import com.mycitybikes.android.view.MapLocationItemizedOverlay;
@@ -322,7 +322,7 @@ public class MyCityBikesActivity extends MapActivity implements
 		StationLocation foundStation = null;
 		for (LocationAndDistance lad : sortedStationLocations) {
 			try {
-				BikeStationStatus status = ClearChannel
+				StationStatus status = ClearChannel
 						.readBikeStationStatus(lad.getStationIndex());
 				if ((criteria == FindStationCriteria.ReadyBike && status
 						.getReadyBikes() > 0)

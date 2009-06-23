@@ -11,7 +11,7 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
-import com.mycitybikes.android.model.BikeStationStatus;
+import com.mycitybikes.android.model.StationStatus;
 import com.mycitybikes.android.model.StationLocation;
 
 public class ClearChannelTest extends AndroidTestCase {
@@ -58,7 +58,7 @@ public class ClearChannelTest extends AndroidTestCase {
 	}
 
 	public void testParseOfflineStatus() throws IOException {
-		BikeStationStatus status = ClearChannel
+		StationStatus status = ClearChannel
 				.parseStatus(getStringInputStream(OFFLINE_STATION_STATUS));
 		assertEquals(false, status.isOnline());
 		assertEquals(0, status.getEmptyLocks());
@@ -66,7 +66,7 @@ public class ClearChannelTest extends AndroidTestCase {
 	}
 
 	public void testParseOnlineStatus() throws IOException {
-		BikeStationStatus status = ClearChannel
+		StationStatus status = ClearChannel
 				.parseStatus(getStringInputStream(ONLINE_STATION_STATUS));
 		assertEquals(true, status.isOnline());
 		assertEquals(7, status.getEmptyLocks());
@@ -75,7 +75,7 @@ public class ClearChannelTest extends AndroidTestCase {
 
 	public void testFetchLiveStatus() {
 		int id = 10;
-		BikeStationStatus status = ClearChannel.readBikeStationStatus(id);
+		StationStatus status = ClearChannel.readBikeStationStatus(id);
 		Log.i(Constants.TAG, "Fetch status for station #" + id + ": "
 				+ status.toString());
 	}

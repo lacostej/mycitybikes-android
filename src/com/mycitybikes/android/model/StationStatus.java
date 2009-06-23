@@ -1,6 +1,6 @@
 package com.mycitybikes.android.model;
 
-public class BikeStationStatus {
+public class StationStatus {
 	private boolean online;
 	private int readyBikes;
 	private int emptyLocks;

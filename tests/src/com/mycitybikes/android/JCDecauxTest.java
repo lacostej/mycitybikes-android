@@ -11,7 +11,7 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 
 import com.mycitybikes.android.JCDecaux;
-import com.mycitybikes.android.model.BikeStationStatus;
+import com.mycitybikes.android.model.StationStatus;
 import com.mycitybikes.android.model.StationLocation;
 
 public class JCDecauxTest extends AndroidTestCase {
@@ -82,7 +82,7 @@ public class JCDecauxTest extends AndroidTestCase {
 	}
 
 	public void testParseParisStatus() throws IOException {
-		BikeStationStatus status = JCDecaux
+		StationStatus status = JCDecaux
 				.parseStatus(getStringInputStream(PARIS_STATION_STATUS));
 		assertEquals(true, status.isOnline());
 		assertEquals(2, status.getEmptyLocks());
@@ -91,14 +91,14 @@ public class JCDecauxTest extends AndroidTestCase {
 	}
 
 	public void testParseOfflineParisStatus() throws IOException {
-		BikeStationStatus status = JCDecaux
+		StationStatus status = JCDecaux
 				.parseStatus(getStringInputStream(PARIS_OFFLINE_STATION_STATUS));
 		assertEquals(false, status.isOnline());
 	}
 
 	public void testFetchLiveParisStatus() {
 		int id = 4027;
-		BikeStationStatus status = JCDecaux.readBikeStationStatus(id);
+		StationStatus status = JCDecaux.readBikeStationStatus(id);
 		Log.i(Constants.TAG, "Fetch Paris status for station #" + id + ": "
 				+ status.toString());
 	}
