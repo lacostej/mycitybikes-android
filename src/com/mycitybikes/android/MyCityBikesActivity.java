@@ -319,6 +319,7 @@ public class MyCityBikesActivity extends MapActivity implements
 		Collections.sort(sortedStationLocations);
 
 		// find first matching station
+		// FIXME olso specific
 		StationLocation foundStation = null;
 		for (LocationAndDistance lad : sortedStationLocations) {
 			try {

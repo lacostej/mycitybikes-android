@@ -4,6 +4,7 @@ BUILD
 * ant building
 
 BUGS
+* Find nearest buggy: oslo specific
 * performance issue at startup
 * performance issue with many stations in maps
 * several stations (from Paris, displayed in strange places (one in Montrueil, one in Algeria). Velib easter egg ?
