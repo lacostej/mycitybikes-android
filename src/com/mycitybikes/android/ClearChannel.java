@@ -204,13 +204,17 @@ public class ClearChannel {
 				if (splitIndex != -1) {
 					description = description.substring(splitIndex + 1);
 				}
-				bikeStationStatus.setDescription(description);
+				// bikeStationStatus.setDescription(description);
 			} else if ("longitute"/* sic... */.equals(child.getNodeName())) {
+			    /*
 				bikeStationStatus.setLongitude(new Double(child.getFirstChild()
 						.getNodeValue()));
+				*/
 			} else if ("latitude".equals(child.getNodeName())) {
+			    /*
 				bikeStationStatus.setLatitude(new Double(child.getFirstChild()
 						.getNodeValue()));
+			     */
 			} else if ("online".equals(child.getNodeName())) {
 				bikeStationStatus.setOnline("1".equals(child.getFirstChild()
 						.getNodeValue()));
@@ -232,7 +236,7 @@ public class ClearChannel {
 
 	public static String getStationInfo(StationLocation stationLocation) {
 		if (stationLocation.getCity().equals("Oslo")) {
-			return getOsloStationInfo(stationLocation.getId());
+			return getOsloStationInfo(stationLocation);
 		} else if (stationLocation.getCity().equals("Stockholm")) {
 			return stationLocation.getDescription()
 					+ "\n\n(no live data for Stockholm)";
@@ -241,23 +245,23 @@ public class ClearChannel {
 		}
 	}
 
-	public static String getOsloStationInfo(int stationIndex) {
+	public static String getOsloStationInfo(StationLocation stationLocation) {
 		String result;
 		try {
-			BikeStationStatus status = readBikeStationStatus(stationIndex);
-			result = formatStationInfo(status);
+			BikeStationStatus status = readBikeStationStatus(stationLocation.getId());
+			result = formatStationInfo(stationLocation, status);
 		} catch (Exception e) {
 			result = "Error: station information not available";
 		}
 		return result;
 	}
 
-	private static String formatStationInfo(BikeStationStatus status) {
+	private static String formatStationInfo(StationLocation stationLocation, BikeStationStatus status) {
 		String result;
 		if (!status.isOnline()) {
-			result = status.getDescription() + "\n\n(no station information)";
+			result = stationLocation.getDescription() + "\n\n(no station information)";
 		} else {
-			result = status.getDescription() + "\n\n" + status.getReadyBikes()
+			result = stationLocation.getDescription() + "\n\n" + status.getReadyBikes()
 					+ " bike(s)\n" + status.getEmptyLocks() + " slot(s)";
 		}
 		return result;
@@ -356,8 +360,6 @@ public class ClearChannel {
 					} else { 
 						id = new Integer(parsedData[0]);
 						description = parsedData[1];
-						// FIXME remove duplication between the 2 classes
-						bikeStationStatus.setDescription(description);
 						bikeStationStatus.setReadyBikes(new Integer(parsedData[2]));
 						bikeStationStatus.setEmptyLocks(new Integer(parsedData[3]));
 					}
@@ -384,7 +386,7 @@ public class ClearChannel {
 
 				@Override
 				public String buildStationInfo() {
-					return formatStationInfo(bikeStationStatus);
+					return formatStationInfo(stationLocation, bikeStationStatus);
 				}
 			});
 			stationLocations.add(stationLocation);
@@ -515,15 +517,14 @@ public class ClearChannel {
 						break;
 					}
 					final BikeStationStatus bikeStationStatus = new BikeStationStatus();
-					bikeStationStatus.setDescription(description);
 					bikeStationStatus.setEmptyLocks(emptyLocks);
 					bikeStationStatus.setReadyBikes(readyBikes);
 					bikeStationStatus.setOnline(true);
-					StationLocation stationLocation = new StationLocation(id, city, country, description, longitude, latitude);
+					final StationLocation stationLocation = new StationLocation(id, city, country, description, longitude, latitude);
 					stationLocation.setStationInfoBuilder(new StationInfoBuilder() {
 						@Override
 						public String buildStationInfo() {
-							return formatStationInfo(bikeStationStatus);
+							return formatStationInfo(stationLocation, bikeStationStatus);
 						}
 					});
 					Log.v(Constants.TAG, "loaded stationLocation: " + stationLocation);

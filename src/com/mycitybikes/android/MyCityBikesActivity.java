@@ -294,7 +294,6 @@ public class MyCityBikesActivity extends MapActivity implements
 		public int getStationIndex() {
 			return stationLocation.getId();
 		}
-
 	}
 
 	public void findClosestStation(FindStationCriteria criteria) {
@@ -329,9 +328,8 @@ public class MyCityBikesActivity extends MapActivity implements
 						.getReadyBikes() > 0)
 						|| (criteria == FindStationCriteria.FreeSlot && status
 								.getEmptyLocks() > 0)) {
-					Log.v(Constants.TAG, "Found station:"
-							+ status.getDescription());
 					foundStation = lad.stationLocation;
+                    Log.v(Constants.TAG, "Found station:" + foundStation);
 					break;
 				}
 			} catch (Exception e) {

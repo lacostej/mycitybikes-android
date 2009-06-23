@@ -183,13 +183,11 @@ public class JCDecaux {
 		String result;
 		try {
 			BikeStationStatus status = readBikeStationStatus(stationIndex);
-			// FIXME solve duplication
-			status.setDescription(stationLocation.getDescription());
 			if (!status.isOnline()) {
-				result = status.getDescription()
+				result = stationLocation.getDescription()
 						+ "\n\n(no station information)";
 			} else {
-				result = status.getDescription() + "\n\n"
+				result = stationLocation.getDescription() + "\n\n"
 						+ status.getReadyBikes() + " bike(s)\n"
 						+ status.getEmptyLocks() + " slot(s)";
 			}
