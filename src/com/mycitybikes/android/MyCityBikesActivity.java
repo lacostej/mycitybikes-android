@@ -19,9 +19,10 @@ import android.view.SubMenu;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-import com.mycitybikes.android.model.StationStatus;
 import com.mycitybikes.android.model.StationLocation;
+import com.mycitybikes.android.model.StationStatus;
 import com.mycitybikes.android.util.AndroidUtils;
 import com.mycitybikes.android.view.MapLocationItemizedOverlay;
 import com.mycitybikes.android.view.MapWithLocationsView;
@@ -36,7 +37,7 @@ import com.mycitybikes.android.view.MapWithLocationsView;
 public class MyCityBikesActivity extends MapActivity implements
 		LocationListener {
 
-	private MapWithLocationsView mapView;
+	private MapView mapView;
 	private Location myLocation;
 
 	private MapController mc;
@@ -53,7 +54,7 @@ public class MyCityBikesActivity extends MapActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		mapView = (MapWithLocationsView) findViewById(R.id.mapView);
+		mapView = (MapView) findViewById(R.id.mapView);
 		mapView.setBuiltInZoomControls(true);
 
 		meMarker = mapView.getResources().getDrawable(R.drawable.marker_orange);

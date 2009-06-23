@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent">
 
-	<com.mycitybikes.android.view.MapWithLocationsView
+	<com.google.android.maps.MapView
 		android:id="@+id/mapView" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:enabled="true"
 		android:clickable="true" android:apiKey="0WwwQvyTsMW2hTmgBDj_to38LTxVp6YF2LHYHsg" /> <!-- RELEASE -->
