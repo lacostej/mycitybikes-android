@@ -2,6 +2,9 @@
 
 * introduced support for Stockholm,Sweeden bike locations (no live data unfortunately). Data from robert hedblad <robert.hedblad@skarpnacksfriaskola.com>
 * introduced support for Paris,France bike locations
+* introduced support for Barcelona,Spain bike locations
+* introduced support for Washington DC,USA bike locations
+* added some functionality under the new "Go To" menu
 
 1.0.1 20080617 Bug fix
 
